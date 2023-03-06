@@ -1,7 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace MEHR;
 
+[PrimaryKey("Key")]
 public class WeatherForecast
 {
+    public int? Key { get; set; }
     public DateTime Date { get; set; }
 
     public int TemperatureC { get; set; }
