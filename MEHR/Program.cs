@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<TestContext>(x => x.UseSqlite("Data Source=penis.db;"));
+builder.Services.AddDbContext<DataContext>(x => x.UseSqlite("Data Source=data.db;"));
 
 var app = builder.Build();
 
