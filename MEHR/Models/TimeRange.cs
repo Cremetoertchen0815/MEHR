@@ -1,5 +1,6 @@
 ﻿namespace MEHR.Models;
 
+[Serializable]
 public struct TimeRange
 {
     public TimeOnly OpeningTime {  get; set; }

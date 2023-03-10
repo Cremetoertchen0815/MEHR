@@ -1,8 +1,15 @@
-﻿namespace MEHR.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MEHR.Models;
 
 public class AppUser
 {
-    public uint Id { get; set; }
+    [Key]
+    public int Id { get; set; }
     public ulong CookieHash { get; set; }
-    public List<uint> RecentLocations { get; set; } = new();
+
+    [ForeignKey("Author")]
+    public ICollection<LocationRating> Ratings { get; set; }
+    //public ICollection<uint> RecentLocations { get; set; }
 }

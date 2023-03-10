@@ -7,16 +7,6 @@ public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
-        FoodLocations.Add(new FoodLocation()
-        {
-            Name = "Location A",
-            Description = "Essen gibts hier",
-            Location = new Geolocation.Coordinate(0.1f, 0.2f),
-            PhoneNumber = "+491746074035",
-            HasDelivery = false,
-            Icon = 50,
-           OpeningTimes = new OpeningTimes()
-        });
 
     }
 
