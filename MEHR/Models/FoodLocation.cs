@@ -1,4 +1,5 @@
 ﻿using Geolocation;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MEHR.Models;
@@ -15,13 +16,17 @@ public class FoodLocation
     public bool HasDelivery { get; set; }
 
     [ForeignKey("Target")]
-    public ICollection<Food> Foods { get; set; }
+    public List<Food> Foods { get; set; } = new();
 
     [ForeignKey("Target")]
-    public ICollection<LocationRating> Ratings { get; set; }
+    public List<LocationRating> Ratings { get; set; } = new();
 
-    [ForeignKey("Target")]
+    public string OpeningTimesSerial
+    {
+        get => JsonConvert.SerializeObject(OpeningTimes);
+        set => OpeningTimes = JsonConvert.DeserializeObject<OpeningTimes>(value);
+    }
+
+    [NotMapped]
     public OpeningTimes OpeningTimes { get; set; }
-
-    //public OpeningTimes OpeningTimes { get; set; } = new();
 }

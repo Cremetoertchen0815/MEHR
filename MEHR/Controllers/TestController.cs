@@ -1,7 +1,6 @@
 ﻿using MEHR.Contexts;
 using MEHR.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
 
 namespace MEHR.Controllers;
 [Controller]
@@ -13,8 +12,9 @@ public class TestController : Controller
 
     public string DoStufff()
     {
+        var loolsoos = new Food() { LowerPriceRange = 5.50m, UpperPriceRange = 8m, Name = "N' Döner!" };
 
-        _context.FoodLocations.Add(new FoodLocation()
+        var ele = new FoodLocation()
         {
             Name = "Location A",
             Description = "Essen gibts hier",
@@ -23,7 +23,10 @@ public class TestController : Controller
             PhoneNumber = "+491746074035",
             HasDelivery = false,
             Icon = 50
-        });
+        };
+        ele.Foods.Add(loolsoos);
+        _context.FoodLocations.Add(ele);
+        _context.SaveChanges();
         return "Woooooow!";
     }
 }

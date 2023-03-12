@@ -1,4 +1,6 @@
-﻿namespace MEHR.Models;
+﻿using Newtonsoft.Json;
+
+namespace MEHR.Models;
 
 [Serializable]
 public struct TimeRange
@@ -23,5 +25,6 @@ public struct TimeRange
         this.ClosingTime = ClosingTime;
     }
 
+    [JsonIgnore]
     public bool HasLunchBreak => (LunchBreakEnd - LunchBreakStart).TotalSeconds > 0;
 }

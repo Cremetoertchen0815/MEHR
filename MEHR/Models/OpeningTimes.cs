@@ -1,20 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace MEHR.Models;
 
-namespace MEHR.Models;
-
-[ComplexType]
-public class OpeningTimes
+[Serializable]
+public struct OpeningTimes
 {
-    public int Id { get; set; }
-    public int Target { get; set; }
-
     public uint SeasonStart { get; set; }
     public uint SeasonEnd { get; set; }
 
-    public ulong Monday { get; set; }
-    public ulong Tuesday { get; set; }
-    public ulong Wednesday { get; set; }
-    public ulong Thursday { get; set; }
-    public ulong Friday { get; set; }
+    public TimeRange Monday { get; set; }
+    public TimeRange Tuesday { get; set; }
+    public TimeRange Wednesday { get; set; }
+    public TimeRange Thursday { get; set; }
+    public TimeRange Friday { get; set; }
 }

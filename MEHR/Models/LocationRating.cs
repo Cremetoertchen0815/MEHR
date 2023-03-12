@@ -4,7 +4,6 @@ namespace MEHR.Models;
 
 public class LocationRating
 {
-    [Key]
     public int Id { get; set; }
     public int Target { get; set; }
     public int Author { get; set; }

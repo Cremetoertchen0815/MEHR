@@ -10,6 +10,5 @@ public class AppUser
     public ulong CookieHash { get; set; }
 
     [ForeignKey("Author")]
-    public ICollection<LocationRating> Ratings { get; set; }
-    //public ICollection<uint> RecentLocations { get; set; }
+    public List<LocationRating> Ratings { get; set; } = new();
 }
