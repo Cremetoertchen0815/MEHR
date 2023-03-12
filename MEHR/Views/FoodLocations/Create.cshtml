@@ -1,0 +1,79 @@
+﻿@model MEHR.Models.FoodLocation
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+    <h4>FoodLocation</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form action="./Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label for="LocationLatitude" class="control-label">LocationLatitude</label>
+                    <input name="LocationLatitude" class="form-control" />
+                    <span asp-validation-for="LocationLatitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="LocationLongitude" class="control-label">LocationLongitude</label>
+                    <input name="LocationLongitude" class="form-control" />
+                    <span asp-validation-for="LocationLongitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Icon" class="control-label">Icon</label>
+                    <input name="Icon" class="form-control" />
+                    <span asp-validation-for="Icon" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Name" class="control-label">Name</label>
+                    <input name="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="control-label">Description</label>
+                    <input name="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="PhoneNumber" class="control-label">PhoneNumber</label>
+                    <input name="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" name="HasDelivery" /> @Html.DisplayNameFor(model => model.HasDelivery)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="OpeningTimesSerial" class="control-label"></label>
+                    <input name="OpeningTimesSerial" class="form-control" />
+                    <span asp-validation-for="OpeningTimesSerial" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a href="..">Back to Overview</a>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

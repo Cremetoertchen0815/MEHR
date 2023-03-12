@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Views\FoodLocations\CreateRecord.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Geolocation" Version="1.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
@@ -29,8 +33,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\admin\" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\FoodLocations\Create.cshtml" />
+    <Content Include="Views\FoodLocations\Delete.cshtml" />
+    <Content Include="Views\FoodLocations\Details.cshtml" />
+    <Content Include="Views\FoodLocations\Edit.cshtml" />
+    <Content Include="Views\FoodLocations\Index.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 
 </Project>

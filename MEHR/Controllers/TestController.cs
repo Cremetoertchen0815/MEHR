@@ -10,6 +10,7 @@ public class TestController : Controller
     private DataContext _context;
     public TestController(DataContext context) => _context = context;
 
+    [HttpGet]
     public string DoStufff()
     {
         var loolsoos = new Food() { LowerPriceRange = 5.50m, UpperPriceRange = 8m, Name = "N' Döner!" };
