@@ -64,7 +64,16 @@ namespace MEHR.Controllers.admin
             var lol = foodLocation.GetType();
             if (ModelState.IsValid)
             {
-                _context.Add(foodLocation);
+                _context.Add(new FoodLocation()
+                {
+                     Description = foodLocation.Description,
+                     Name = foodLocation.Name,
+                     PhoneNumber = foodLocation.PhoneNumber,
+                     LocationLatitude = double.Parse(foodLocation.LocationLatitude),
+                     LocationLongitude = double.Parse(foodLocation.LocationLongitude),
+                     HasDelivery = foodLocation.HasDelivery == "on",
+                     Icon = int.Parse(foodLocation.Icon)
+                });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
