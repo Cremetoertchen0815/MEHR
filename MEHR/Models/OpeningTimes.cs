@@ -3,12 +3,12 @@
 [Serializable]
 public struct OpeningTimes
 {
-    public uint SeasonStart { get; set; }
-    public uint SeasonEnd { get; set; }
+    public (int Day, int Month) SeasonStart { get; set; }
+    public (int Day, int Month) SeasonEnd { get; set; }
 
-    public TimeRange Monday { get; set; }
-    public TimeRange Tuesday { get; set; }
-    public TimeRange Wednesday { get; set; }
-    public TimeRange Thursday { get; set; }
-    public TimeRange Friday { get; set; }
+    public (TimeOnly Start, TimeOnly End) Monday { get; set; }
+    public (TimeOnly Start, TimeOnly End) Tuesday { get; set; }
+    public (TimeOnly Start, TimeOnly End) Wednesday { get; set; }
+    public (TimeOnly Start, TimeOnly End) Thursday { get; set; }
+    public (TimeOnly Start, TimeOnly End) Friday { get; set; }
 }

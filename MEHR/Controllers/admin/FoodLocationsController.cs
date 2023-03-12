@@ -21,9 +21,9 @@ namespace MEHR.Controllers.admin
         [ActionName("Index")]
         public async Task<IActionResult> Index()
         {
-              return _context.FoodLocations != null ? 
-                          View(await _context.FoodLocations.ToListAsync()) :
-                          Problem("Entity set 'DataContext.FoodLocations'  is null.");
+            return _context.FoodLocations != null ?
+                        View(await _context.FoodLocations.ToListAsync()) :
+                        Problem("Entity set 'DataContext.FoodLocations'  is null.");
         }
 
         // GET: FoodLocations/Details/5
@@ -51,33 +51,19 @@ namespace MEHR.Controllers.admin
         [Route("Create")]
         public IActionResult Create()
         {
+
             return View();
         }
-
         // POST: FoodLocations/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("Create")]
-        public async Task<IActionResult> Create([Bind("LocationLatitude,LocationLongitude,Icon,Name,Description,PhoneNumber,HasDelivery")] CreateRecord foodLocation)
+        public async Task<IActionResult> Create(DataSyncRecord foodLocation)
         {
-            var lol = foodLocation.GetType();
-            if (ModelState.IsValid)
-            {
-                _context.Add(new FoodLocation()
-                {
-                     Description = foodLocation.Description,
-                     Name = foodLocation.Name,
-                     PhoneNumber = foodLocation.PhoneNumber,
-                     LocationLatitude = double.Parse(foodLocation.LocationLatitude),
-                     LocationLongitude = double.Parse(foodLocation.LocationLongitude),
-                     HasDelivery = foodLocation.HasDelivery == "on",
-                     Icon = int.Parse(foodLocation.Icon)
-                });
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(foodLocation);
+            _context.Add(foodLocation.SyncData(new FoodLocation()));
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: FoodLocations/Edit/5
@@ -103,36 +89,33 @@ namespace MEHR.Controllers.admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("Edit/{id}")]
-        [ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LocationLatitude,LocationLongitude,Icon,Name,Description,PhoneNumber,HasDelivery,OpeningTimesSerial")] FoodLocation foodLocation)
+        public async Task<IActionResult> Edit(int? id, DataSyncRecord foodLocation)
         {
-            if (id != foodLocation.Id)
+            var data = _context.FoodLocations.Find(id);
+            if (data is null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+
+            try
             {
-                try
-                {
-                    _context.Update(foodLocation);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!(_context.FoodLocations?.Any(e => e.Id == foodLocation.Id)).GetValueOrDefault())
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                foodLocation.SyncData(data);
+                _context.Update(data);
+                await _context.SaveChangesAsync();
             }
-            return View(foodLocation);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!(_context.FoodLocations?.Any(e => e.Id == id)).GetValueOrDefault())
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: FoodLocations/Delete/5
@@ -158,7 +141,7 @@ namespace MEHR.Controllers.admin
         // POST: FoodLocations/Delete/5
         [HttpPost]
         [ActionName("Delete")]
-        [Route("Delete/{id}" )]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.FoodLocations == null)
@@ -170,7 +153,7 @@ namespace MEHR.Controllers.admin
             {
                 _context.FoodLocations.Remove(foodLocation);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

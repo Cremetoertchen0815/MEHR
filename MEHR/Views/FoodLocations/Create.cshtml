@@ -21,18 +21,15 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label for="LocationLatitude" class="control-label">LocationLatitude</label>
-                    <input name="LocationLatitude" class="form-control" />
-                    <span asp-validation-for="LocationLatitude" class="text-danger"></span>
+                    <input name="LocationLatitude" value="0" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="LocationLongitude" class="control-label">LocationLongitude</label>
-                    <input name="LocationLongitude" class="form-control" />
-                    <span asp-validation-for="LocationLongitude" class="text-danger"></span>
+                    <input name="LocationLongitude" value="0" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="Icon" class="control-label">Icon</label>
-                    <input name="Icon" class="form-control" />
-                    <span asp-validation-for="Icon" class="text-danger"></span>
+                    <input name="Icon" value="0" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="Name" class="control-label">Name</label>
@@ -55,9 +52,52 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    <label for="OpeningTimesSerial" class="control-label"></label>
-                    <input name="OpeningTimesSerial" class="form-control" />
-                    <span asp-validation-for="OpeningTimesSerial" class="text-danger"></span>
+                    <label for="SeasonStart" class="control-label">Season Start</label>
+                    <input name="SeasonStart" type="date" value="2023-01-01" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="SeasonEnd" class="control-label">Season End</label>
+                    <input name="SeasonEnd" type="date" value="2023-12-31" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeOpenMonday" class="control-label">TimeOpenMonday</label>
+                    <input name="TimeOpenMonday" type="time" value="08:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeCloseMonday" class="control-label">TimeCloseMonday</label>
+                    <input name="TimeCloseMonday" type="time" value="22:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeOpenTuesday" class="control-label">TimeOpenTuesday</label>
+                    <input name="TimeOpenTuesday" type="time" value="08:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeCloseTuesday" class="control-label">TimeCloseTuesday</label>
+                    <input name="TimeCloseTuesday" type="time" value="22:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeOpenWednesday" class="control-label">TimeOpenWednesday</label>
+                    <input name="TimeOpenWednesday" type="time" value="08:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeCloseWednesday" class="control-label">TimeCloseWednesday</label>
+                    <input name="TimeCloseWednesday" type="time" value="22:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeOpenThursday" class="control-label">TimeOpenThursday</label>
+                    <input name="TimeOpenThursday" type="time" value="08:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeCloseThursday" class="control-label">TimeCloseThursday</label>
+                    <input name="TimeCloseThursday" type="time" value="22:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeOpenFriday" class="control-label">TimeOpenFriday</label>
+                    <input name="TimeOpenFriday" type="time" value="08:00" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="TimeCloseFriday" class="control-label">TimeCloseFriday</label>
+                    <input name="TimeCloseFriday" type="time" value="22:00" class="form-control" />
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
