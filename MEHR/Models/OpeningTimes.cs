@@ -1,4 +1,6 @@
-﻿namespace MEHR.Models;
+﻿using System.Text;
+
+namespace MEHR.Models;
 
 [Serializable]
 public struct OpeningTimes
@@ -11,4 +13,17 @@ public struct OpeningTimes
     public (TimeOnly Start, TimeOnly End) Wednesday { get; set; }
     public (TimeOnly Start, TimeOnly End) Thursday { get; set; }
     public (TimeOnly Start, TimeOnly End) Friday { get; set; }
+
+    public string ToHtml() 
+    {
+        StringBuilder sb = new StringBuilder();
+        if ((Monday.End - Monday.Start).Ticks > 0) sb.AppendLine($"Monday: {Monday.Start}-{Monday.End}<br>");
+        if ((Tuesday.End - Tuesday.Start).Ticks > 0) sb.AppendLine($"Tuesday: {Tuesday.Start}-{Tuesday.End}<br>");
+        if ((Wednesday.End - Wednesday.Start).Ticks > 0) sb.AppendLine($"Wednesday: {Wednesday.Start}-{Wednesday.End}<br>");
+        if ((Thursday.End - Thursday.Start).Ticks > 0) sb.AppendLine($"Thursday: {Thursday.Start}-{Thursday.End} <br>");
+        if ((Friday.End - Friday.Start).Ticks > 0) sb.AppendLine($"Friday: {Friday.Start}-{Friday.End}<br>");
+        if (SeasonStart != SeasonEnd) sb.AppendLine($"<br>Season: {SeasonStart.Day}.{SeasonStart.Month} - {SeasonEnd.Day}.{SeasonEnd.Month}");
+        return sb.ToString();
+    }
+
 }

@@ -22,7 +22,7 @@ namespace MEHR.Controllers.admin
         public async Task<IActionResult> Index()
         {
             return _context.FoodLocations != null ?
-                        View(await _context.FoodLocations.ToListAsync()) :
+                        View(await _context.FoodLocations.Include(x => x.Foods).ToListAsync()) :
                         Problem("Entity set 'DataContext.FoodLocations'  is null.");
         }
 
@@ -59,9 +59,10 @@ namespace MEHR.Controllers.admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("Create")]
-        public async Task<IActionResult> Create(DataSyncRecord foodLocation)
+        public async Task<IActionResult> Create(Dictionary<string, string> parameters)
         {
-            _context.Add(foodLocation.SyncData(new FoodLocation()));
+            var data = new FoodLocation().ParseData(parameters, _context);
+            _context.FoodLocations.Add(data);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -76,11 +77,12 @@ namespace MEHR.Controllers.admin
                 return NotFound();
             }
 
-            var foodLocation = await _context.FoodLocations.FindAsync(id);
+            var foodLocation = await _context.FoodLocations.Include(x => x.Foods).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.Id == id);
             if (foodLocation == null)
             {
                 return NotFound();
             }
+
             return View(foodLocation);
         }
 
@@ -89,9 +91,9 @@ namespace MEHR.Controllers.admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Route("Edit/{id}")]
-        public async Task<IActionResult> Edit(int? id, DataSyncRecord foodLocation)
+        public async Task<IActionResult> Edit(int? id, Dictionary<string, string> parameters)
         {
-            var data = _context.FoodLocations.Find(id);
+            var data = await _context.FoodLocations.Include(x => x.Foods).FirstOrDefaultAsync(x => x.Id == id);
             if (data is null)
             {
                 return NotFound();
@@ -100,7 +102,7 @@ namespace MEHR.Controllers.admin
 
             try
             {
-                foodLocation.SyncData(data);
+                data.ParseData(parameters, _context);
                 _context.Update(data);
                 await _context.SaveChangesAsync();
             }

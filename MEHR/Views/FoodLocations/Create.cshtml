@@ -48,8 +48,9 @@
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input type="checkbox" name="HasDelivery" /> @Html.DisplayNameFor(model => model.HasDelivery)
+                         @Html.DisplayNameFor(model => model.HasDelivery)
                     </label>
+                    <input type="checkbox" name="HasDelivery" />
                 </div>
                 <div class="form-group">
                     <label for="SeasonStart" class="control-label">Season Start</label>
@@ -102,13 +103,98 @@
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
+
+                <div id="FoodTable">
+                    <h2>Foods</h2>
+                    <input id="FoodCount" name="FoodCount" type="hidden" value="0" />
+                </div>
             </form>
+            <button onclick="increaseNr()">Add</button>
+            <button onclick="decreaseNr()">Remove</button>
         </div>
     </div>
 
     <div>
         <a href="..">Back to Overview</a>
     </div>
+
+
+    <script>
+        function increaseNr() {
+            //Fetch data
+            let element = document.getElementById("FoodCount");
+            let nuNr = Number(element.getAttribute("value")) + 1;
+            let parent = document.getElementById("FoodTable");
+            
+            //Generate new div and set attributes
+            let baseline = document.createElement("div");
+            baseline.setAttribute("id", "Food" + nuNr);
+            baseline.setAttribute("class", "Food");
+            //Append header
+            let header = document.createElement("p");
+            header.innerHTML = "Food " + nuNr + " :";
+            baseline.appendChild(header);
+            //Append name label
+            let nameLbl = document.createElement("label");
+            nameLbl.setAttribute("for", "FoodName" + nuNr);
+            nameLbl.setAttribute("class", "control-label");
+            nameLbl.innerHTML = "Name";
+            baseline.appendChild(nameLbl);
+            //Append name input
+            let nameIn = document.createElement("input");
+            nameIn.setAttribute("name", "FoodName" + nuNr);
+            nameIn.setAttribute("class", "form-control");
+            baseline.appendChild(nameIn);
+            //Append tags label
+            let tagsLbl = document.createElement("label");
+            tagsLbl.setAttribute("for", "FoodTags" + nuNr);
+            tagsLbl.setAttribute("class", "control-label");
+            tagsLbl.innerHTML = "Tags";
+            baseline.appendChild(tagsLbl);
+            //Append tags input
+            let tagsIn = document.createElement("input");
+            tagsIn.setAttribute("name", "FoodTags" + nuNr);
+            tagsIn.setAttribute("class", "form-control");
+            baseline.appendChild(tagsIn);
+            //Append lower label
+            let lowerLbl = document.createElement("label");
+            lowerLbl.setAttribute("for", "FoodLower" + nuNr);
+            lowerLbl.setAttribute("class", "control-label");
+            lowerLbl.innerHTML = "Price Lower";
+            baseline.appendChild(lowerLbl);
+            //Append lower input
+            let lowerIn = document.createElement("input");
+            lowerIn.setAttribute("name", "FoodLower" + nuNr);
+            lowerIn.setAttribute("class", "form-control");
+            lowerIn.setAttribute("value", "0");
+            baseline.appendChild(lowerIn);
+            //Append upper label
+            let upperLbl = document.createElement("label");
+            upperLbl.setAttribute("for", "FoodUpper" + nuNr);
+            upperLbl.setAttribute("class", "control-label");
+            upperLbl.innerHTML = "Price Upper";
+            baseline.appendChild(upperLbl);
+            //Append upper input
+            let upperIn = document.createElement("input");
+            upperIn.setAttribute("name", "FoodUpper" + nuNr);
+            upperIn.setAttribute("class", "form-control");
+            upperIn.setAttribute("value", "0");
+            baseline.appendChild(upperIn);
+            
+            parent.appendChild(baseline);
+            element.setAttribute("value", nuNr); //Increase food count
+        }
+
+
+        function decreaseNr() {
+            //Fetch data
+            let element = document.getElementById("FoodCount");
+            let val = Number(element.getAttribute("value"));
+            if (val < 1) return; //Don't do anything if no foods are present
+            document.getElementById("Food" + val).remove(); //Remove element
+            element.setAttribute("value", val - 1); //Reduce food count
+        }
+    </script>
 
     @section Scripts {
         @{

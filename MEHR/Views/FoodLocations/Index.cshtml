@@ -19,15 +19,6 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.LocationLatitude)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LocationLongitude)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Icon)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
@@ -37,10 +28,19 @@
                     @Html.DisplayNameFor(model => model.PhoneNumber)
                 </th>
                 <th>
+                    Latidude
+                </th>
+                <th>
+                    Longitude
+                </th>
+                <th>
+                    Price Range
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.HasDelivery)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.OpeningTimesSerial)
+                    @Html.DisplayNameFor(model => model.OpeningTimes)
                 </th>
                 <th></th>
             </tr>
@@ -49,15 +49,6 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationLatitude)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationLongitude)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Icon)
-                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
@@ -68,10 +59,19 @@
                         @Html.DisplayFor(modelItem => item.PhoneNumber)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.LocationLatitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocationLongitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PriceRange)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.HasDelivery)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.OpeningTimesSerial)
+                        @Html.Raw(item.OpeningTimes.ToHtml());
                     </td>
                     <td>
                         <a href="./FoodLocations/Edit/@item.Id">Edit</a> |

@@ -14,12 +14,8 @@ public class FoodLocation
     public string Description { get; set; }
     public string PhoneNumber { get; set; }
     public bool HasDelivery { get; set; }
-
-    [ForeignKey("Target")]
-    public List<Food> Foods { get; set; } = new();
-
-    [ForeignKey("Target")]
-    public List<LocationRating> Ratings { get; set; } = new();
+    public ICollection<Food> Foods { get; set; }
+    public ICollection<LocationRating> Ratings { get; set; }
 
     public string OpeningTimesSerial
     {
@@ -29,4 +25,7 @@ public class FoodLocation
 
     [NotMapped]
     public OpeningTimes OpeningTimes { get; set; }
+
+    [NotMapped]
+    public string PriceRange => Foods is null ? "-" : $"{Foods.Min(x => x.LowerPriceRange)}€ - {Foods.Max(x => x.UpperPriceRange)}€";
 }

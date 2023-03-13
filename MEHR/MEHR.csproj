@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Views\FoodLocations\CreateRecord.cs" />
+    <Compile Include="Views\FoodLocations\DataSyncExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
