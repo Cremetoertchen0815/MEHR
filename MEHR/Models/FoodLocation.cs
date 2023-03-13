@@ -10,12 +10,12 @@ public class FoodLocation
     public double LocationLatitude { get; set; }
     public double LocationLongitude { get; set; }
     public int Icon { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string PhoneNumber { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public string? PhoneNumber { get; set; }
     public bool HasDelivery { get; set; }
-    public ICollection<Food> Foods { get; set; }
-    public ICollection<LocationRating> Ratings { get; set; }
+    public ICollection<Food>? Foods { get; set; }
+    public ICollection<LocationRating>? Ratings { get; set; }
 
     public string OpeningTimesSerial
     {

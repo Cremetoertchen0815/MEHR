@@ -77,7 +77,7 @@ namespace MEHR.Controllers.admin
                 return NotFound();
             }
 
-            var foodLocation = await _context.FoodLocations.Include(x => x.Foods).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.Id == id);
+            var foodLocation = await _context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).FirstOrDefaultAsync(x => x.Id == id);
             if (foodLocation == null)
             {
                 return NotFound();

@@ -103,7 +103,7 @@
 
                 <div id="FoodTable">
                     <h2>Foods</h2>
-                    <input id="FoodCount" name="FoodCount" type="hidden" value="@Model.Foods.Count" />
+                    <input id="FoodCount" name="FoodCount" type="hidden" value="@Model.Foods!.Count" />
                     @for (int i = 1; i <= Model.Foods.Count; i++)
                     {
                         var element = Model.Foods.ElementAt(i - 1);
@@ -112,7 +112,7 @@
                             <label for="@("FoodName" + i)" class="control-label">Name</label>
                             <input name="@("FoodName" + i)" class="form-control" value="@element.Name" />
                             <label for="@("FoodTags" + i)" class="control-label">Tags</label>
-                            <input name="@("FoodTags" + i)" class="form-control" value="@element.Tag.Name" />
+                            <input name="@("FoodTags" + i)" class="form-control" value="@element.Tag!.Name" />
                             <label for="@("FoodLower" + i)" class="control-label">Price Lower</label>
                             <input name="@("FoodLower" + i)" value="@element.LowerPriceRange" class="form-control" />
                             <label for="@("FoodUpper" + i)" class="control-label">Price Upper</label>
