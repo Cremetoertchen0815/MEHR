@@ -1,75 +1,110 @@
 ﻿@model MEHR.Models.FoodLocation
 
 @{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
+	<meta name="viewport" content="width=device-width" />
+	<title>Details</title>
 </head>
 <body>
 
-    <div>
-        <h4>FoodLocation</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LocationLatitude)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LocationLatitude)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LocationLongitude)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.LocationLongitude)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Icon)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Icon)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.PhoneNumber)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.HasDelivery)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.HasDelivery)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.OpeningTimesSerial)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.OpeningTimesSerial)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a href="/admin/FoodLocations/Edit/@Model.Id">Edit</a> |
-        <a href="/admin/FoodLocations">Back to Overview</a>
-    </div>
+	<div>
+		<h4>FoodLocation</h4>
+		<hr />
+		<dl class="row">
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.LocationLatitude)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.LocationLatitude)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.LocationLongitude)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.LocationLongitude)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Icon)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Icon)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Name)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Name)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Description)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Description)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.PhoneNumber)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.PhoneNumber)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.HasDelivery)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.HasDelivery)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.OpeningTimes)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.Raw(Model.OpeningTimes.ToHtml())
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Foods)
+			</dt>
+			<dd class="col-sm-10">
+					<ul>
+					@for (int i = 1; i <= Model.Foods!.Count; i++)
+					{
+						var element = Model.Foods.ElementAt(i - 1);
+							<li>
+							@Html.Raw($"{element.Name} (<span style=\"color: #{element.Tag!.Color.ToString("X")}\">#{element.Tag.Name}</span>, {element.LowerPriceRange}€ - {element.UpperPriceRange}€)")
+							</li>
+					}
+					</ul>
+			</dd>
+
+			<dt class="col-sm-2">
+				Average Rating
+			</dt>
+			<dd class="col-sm-10">
+				@(Model.Ratings?.DefaultIfEmpty().Average(x => x?.Rating ?? -1).ToString() ?? "-")
+			</dd>
+			<dt class="col-sm-2">
+				Ratings
+			</dt>
+			<dd class="col-sm-10">
+					<ul>
+					@foreach (var item in Model.Ratings!)
+					{
+						<li>
+							<h3>@($"{item.Rating}({item.Author})")</h3>
+							<p>@item.Text</p>
+						</li>
+					}
+				</ul>
+			</dd>
+		</dl>
+	</div>
+	<div>
+		<a href="/admin/FoodLocations/Edit/@Model.Id">Edit</a> |
+		<a href="/admin/FoodLocations">Back to Overview</a>
+	</div>
 </body>
 </html>

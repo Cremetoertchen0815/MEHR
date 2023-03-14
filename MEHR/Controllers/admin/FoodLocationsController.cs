@@ -22,7 +22,7 @@ namespace MEHR.Controllers.admin
         public async Task<IActionResult> Index()
         {
             return _context.FoodLocations != null ?
-                        View(await _context.FoodLocations.Include(x => x.Foods).ToListAsync()) :
+                        View(await _context.FoodLocations.Include(x => x.Foods).Include(x => x.Ratings).ToListAsync()) :
                         Problem("Entity set 'DataContext.FoodLocations'  is null.");
         }
 
@@ -36,8 +36,7 @@ namespace MEHR.Controllers.admin
                 return NotFound();
             }
 
-            var foodLocation = await _context.FoodLocations
-                .FirstOrDefaultAsync(m => m.Id == id);
+			var foodLocation = await _context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).Include(x => x.Ratings).FirstOrDefaultAsync(m => m.Id == id);
             if (foodLocation == null)
             {
                 return NotFound();
