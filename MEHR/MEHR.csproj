@@ -42,6 +42,11 @@
     <Content Include="Views\FoodLocations\Details.cshtml" />
     <Content Include="Views\FoodLocations\Edit.cshtml" />
     <Content Include="Views\FoodLocations\Index.cshtml" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Delete.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 

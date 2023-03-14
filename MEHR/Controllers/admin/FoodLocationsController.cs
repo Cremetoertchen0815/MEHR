@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MEHR.Controllers.admin
 {
-    [Route("admin/FoodLocations")]
+	[ApiExplorerSettings(IgnoreApi = true)]
+	[Route("admin/FoodLocations")]
     public class FoodLocationsController : Controller
     {
         private readonly DataContext _context;
