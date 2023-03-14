@@ -56,8 +56,6 @@ public static class DataSyncExtensions
             Name = Name,
             Color = (((uint)Random.Shared.Next()) << 1) | 0x000000FF //Generate random color, fill empty sign & set alpha byte to max
         };
-        context.FoodTags.Add(tag);
-        context.SaveChanges();
         return tag;
     }
 }
