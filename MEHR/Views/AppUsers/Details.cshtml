@@ -18,16 +18,52 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CookieHash)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CookieHash)
+                @Html.Raw("0x" + Model.CookieHash.ToString("X"))
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ratings)
+        </dt>
+        <dd class = "col-sm-10">
+            <ul>
+                @{
+                    int counter = 1;
+					foreach (var rating in Model.Ratings)
+					{
+                        <li>
+                            <h3>@(counter++). @rating.Location.Name (@rating.Rating)</h3>
+						    <p>@rating.Text</p>
+						</li>
+					}
+                }
+			</ul>
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.History)
+        </dt>
+        <dd class = "col-sm-10">
+            <ul>
+                    @{
+                        foreach (var loc in Model.History)
+                        {
+                             <li>@loc.Name</li>
+                        }
+                    }
+            </ul>
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href="/admin/AppUsers/Edit/@Model?.Id">Edit</a> |
+    <a href="/admin/AppUsers">Back to List</a>
 </div>
 </body>
 </html>
