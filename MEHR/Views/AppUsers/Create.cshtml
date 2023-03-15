@@ -1,4 +1,4 @@
-﻿@model MEHR.Models.AppUser
+﻿@model ICollection<MEHR.Models.FoodLocation>
 
 @{
     Layout = null;
@@ -17,23 +17,95 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post" action="/admin/AppUsers/Create">
             <div class="form-group">
-                <label asp-for="CookieHash" class="control-label"></label>
-                <input asp-for="CookieHash" class="form-control" />
-                <span asp-validation-for="CookieHash" class="text-danger"></span>
+                <label for="CookieHash" class="control-label">CookieHash</label>
+                <span>0x</span><input name="CookieHash" class="form-control" />
+            </div>
+            <div id="Ratings" class="form-group">
+                <h2>Ratings</h2>
+                <input type="hidden" name="RatingsCount" id="RatingsCount" value="0" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+
+            <button onclick="increaseNr()">Add Rating</button>
+            <button onclick="decreaseNr()">Remove Rating</button><br />
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href="/admin/AppUsers/Index">Back to List</a>
 </div>
+
+<script>
+    const ratings = `@Html.Raw(String.Concat(Model.Select(x => $"<option value=\"{x.Id}\">{x.Name}</option>\n").DefaultIfEmpty(string.Empty)))`;
+    function increaseNr() {
+            //Fetch data
+            let element = document.getElementById("RatingsCount");
+            let nuNr = Number(element.getAttribute("value")) + 1;
+            let parent = document.getElementById("Ratings");
+
+            //Generate new div and set attributes
+            let baseline = document.createElement("div");
+            baseline.setAttribute("id", "Rating" + nuNr);
+            baseline.setAttribute("class", "Rating");
+            //Append header
+            let header = document.createElement("p");
+            header.innerHTML = "Rating " + nuNr + " :";
+            baseline.appendChild(header);
+            //Append name label
+            let nameLbl = document.createElement("label");
+            nameLbl.setAttribute("for", "RatingTarget" + nuNr);
+            nameLbl.setAttribute("class", "control-label");
+            nameLbl.innerHTML = "Ziel";
+            baseline.appendChild(nameLbl);
+            //Append name input
+            let nameIn = document.createElement("select");
+            nameIn.setAttribute("name", "RatingTarget" + nuNr);
+            nameIn.setAttribute("class", "form-control");
+			nameIn.innerHTML = ratings;
+            baseline.appendChild(nameIn);
+            //Append tags label
+            let tagsLbl = document.createElement("label");
+            tagsLbl.setAttribute("for", "RatingVal" + nuNr);
+            tagsLbl.setAttribute("class", "control-label");
+            tagsLbl.innerHTML = "Bewertung";
+            baseline.appendChild(tagsLbl);
+            //Append tags input
+            let tagsIn = document.createElement("input");
+            tagsIn.setAttribute("name", "RatingVal" + nuNr);
+            tagsIn.setAttribute("class", "form-control");
+            tagsIn.setAttribute("value", "0");
+            baseline.appendChild(tagsIn);
+            //Append lower label
+            let lowerLbl = document.createElement("label");
+            lowerLbl.setAttribute("for", "RatingText" + nuNr);
+            lowerLbl.setAttribute("class", "control-label");
+            lowerLbl.innerHTML = "Text";
+            baseline.appendChild(lowerLbl);
+            //Append lower input
+            let lowerIn = document.createElement("input");
+            lowerIn.setAttribute("name", "RatingText" + nuNr);
+            lowerIn.setAttribute("class", "form-control");
+            baseline.appendChild(lowerIn);
+
+            parent.appendChild(baseline);
+            element.setAttribute("value", nuNr); //Increase food count
+        }
+
+
+        function decreaseNr() {
+            //Fetch data
+            let element = document.getElementById("RatingsCount");
+            let val = Number(element.getAttribute("value"));
+            if (val < 1) return; //Don't do anything if no foods are present
+            document.getElementById("Rating" + val).remove(); //Remove element
+            element.setAttribute("value", val - 1); //Reduce food count
+        }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

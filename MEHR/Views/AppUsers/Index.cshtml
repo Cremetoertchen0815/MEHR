@@ -1,43 +1,74 @@
 ﻿@model IEnumerable<MEHR.Models.AppUser>
 
 @{
-    Layout = null;
+	Layout = null;
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+	<meta name="viewport" content="width=device-width" />
+	<title>Index</title>
 </head>
 <body>
 <p>
-    <a asp-action="Create">Create New</a>
+	<a href="/admin/AppUsers/create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CookieHash)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CookieHash)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CookieHash)
+			</th>
+			<th>
+				Fav. Place
+			</th>
+			<th>
+				Last Visited
+			</th>
+			<th>
+				Most Visited
+			</th>
+			<th>
+				Ratings Count
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						#@item.Id
+					</td>
+					<td>
+						@("0x" + item.CookieHash.ToString("X"))
+					</td>
+					<td>
+						#@(item.Ratings?.DefaultIfEmpty().MaxBy(x => x?.Rating)?.Location?.Name ?? "-")
+					</td>
+					<td>
+						@(item.History?.LastOrDefault()?.Name ?? "-")
+					</td>
+					<td>
+						@(item.History?.GroupBy(x => x.Name).MaxBy(x => x.Count())?.ElementAtOrDefault(0)?.Name ?? "-")
+					</td>
+					<td>
+						@(item.Ratings?.Count ?? 0)
+					</td>
+					<td>
+						<a href="/admin/AppUsers/Edit/@item.Id">Edit</a> |
+						<a href="/admin/AppUsers/Details/@item.Id">Details</a> |
+						<a href="/admin/AppUsers/Delete/@item.Id">Delete</a>
+					</td>
+				</tr>
+			}
+	</tbody>
 </table>
 </body>
 </html>

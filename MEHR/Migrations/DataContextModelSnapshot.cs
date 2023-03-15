@@ -28,7 +28,7 @@ namespace MEHR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MEHR.Models.Food", b =>
@@ -58,7 +58,7 @@ namespace MEHR.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Foods");
+                    b.ToTable("Foods", (string)null);
                 });
 
             modelBuilder.Entity("MEHR.Models.FoodLocation", b =>
@@ -99,7 +99,7 @@ namespace MEHR.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("FoodLocations");
+                    b.ToTable("FoodLocations", (string)null);
                 });
 
             modelBuilder.Entity("MEHR.Models.FoodTag", b =>
@@ -116,7 +116,7 @@ namespace MEHR.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FoodTags");
+                    b.ToTable("FoodTags", (string)null);
                 });
 
             modelBuilder.Entity("MEHR.Models.LocationRating", b =>
@@ -143,7 +143,7 @@ namespace MEHR.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("MEHR.Models.Food", b =>

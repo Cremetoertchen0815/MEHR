@@ -1,12 +1,12 @@
 ﻿using MEHR.Contexts;
 using MEHR.Models;
-using MEHR.Views.FoodLocations;
+using MEHR.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MEHR.Controllers.admin
 {
-	[ApiExplorerSettings(IgnoreApi = true)]
+    [ApiExplorerSettings(IgnoreApi = true)]
 	[Route("admin/FoodLocations")]
     public class FoodLocationsController : Controller
     {
