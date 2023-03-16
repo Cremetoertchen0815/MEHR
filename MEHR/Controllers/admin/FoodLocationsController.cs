@@ -142,7 +142,6 @@ namespace MEHR.Controllers.admin
 
         // POST: FoodLocations/Delete/5
         [HttpPost]
-        [ActionName("Delete")]
         [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

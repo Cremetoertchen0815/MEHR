@@ -54,7 +54,7 @@
                     @{
                         foreach (var loc in Model.History)
                         {
-                             <li>@loc.Name</li>
+                             <li>@loc.Location.Name (@DateTime.FromBinary(loc.CreationDate).ToString())</li>
                         }
                     }
             </ul>

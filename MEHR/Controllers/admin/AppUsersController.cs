@@ -27,7 +27,7 @@ namespace MEHR.Controllers.admin
         public async Task<IActionResult> Index()
         {
             return _context.Users != null ?
-                        View(await _context.Users.Include(x => x.Ratings).Include(x => x.History).ToListAsync()) :
+                        View(await _context.Users.Include(x => x.Ratings).Include(x => x.History!).ThenInclude(x => x.Location).ToListAsync()) :
                         Problem("Entity set 'DataContext.Users'  is null.");
         }
 
@@ -84,19 +84,24 @@ namespace MEHR.Controllers.admin
                 return NotFound();
             }
 
+            var locations = await _context.FoodLocations.ToListAsync();
+            if (locations == null)
+            {
+                return NotFound();
+            }
+
             var appUser = await _context.Users.Include(x => x.Ratings!).ThenInclude(x => x.Location).Include(x => x.History).FirstOrDefaultAsync(x => x.Id == id);
             if (appUser == null)
             {
                 return NotFound();
             }
-            return View(appUser);
+            return View((appUser, locations));
         }
 
         // POST: AppUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("Edit/{id}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Dictionary<string, string> parameters)
         {
 
@@ -141,7 +146,6 @@ namespace MEHR.Controllers.admin
 
         // POST: AppUsers/Delete/5
         [HttpPost("Delete/{id}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Users == null)

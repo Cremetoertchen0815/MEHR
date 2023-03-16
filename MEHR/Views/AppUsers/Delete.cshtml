@@ -25,12 +25,11 @@
             @Html.DisplayFor(model => model.CookieHash)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+
+        <form method="post" action="/admin/AppUsers/Delete/@Model.Id">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a href="/admin/AppUsers">Back to Overview</a>
+        </form>
 </div>
 </body>
 </html>

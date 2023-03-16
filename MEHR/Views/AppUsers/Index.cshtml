@@ -53,10 +53,10 @@
 						#@(item.Ratings?.DefaultIfEmpty().MaxBy(x => x?.Rating)?.Location?.Name ?? "-")
 					</td>
 					<td>
-						@(item.History?.LastOrDefault()?.Name ?? "-")
+						@(item.History?.LastOrDefault()?.Location?.Name ?? "-")
 					</td>
 					<td>
-						@(item.History?.GroupBy(x => x.Name).MaxBy(x => x.Count())?.ElementAtOrDefault(0)?.Name ?? "-")
+						@(item.History?.GroupBy(x => x.Location?.Name).MaxBy(x => x.Count())?.ElementAtOrDefault(0)?.Location?.Name ?? "-")
 					</td>
 					<td>
 						@(item.Ratings?.Count ?? 0)

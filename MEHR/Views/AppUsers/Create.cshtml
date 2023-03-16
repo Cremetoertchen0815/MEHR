@@ -26,13 +26,19 @@
                 <h2>Ratings</h2>
                 <input type="hidden" name="RatingsCount" id="RatingsCount" value="0" />
             </div>
+            <div id="History" class="form-group">
+                <h2>History</h2>
+                <input type="hidden" name="HistoryCount" id="HistoryCount" value="0" />
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-
-            <button onclick="increaseNr()">Add Rating</button>
-            <button onclick="decreaseNr()">Remove Rating</button><br />
+            <br />
+            <button onclick="increaseRating()">Add Rating</button>
+            <button onclick="decreaseRating()">Remove Rating</button><br />
+            <button onclick="increaseHistory()">Add Location to History</button>
+            <button onclick="decreaseHistory()">Remove Location from History</button><br />
     </div>
 </div>
 
@@ -41,8 +47,9 @@
 </div>
 
 <script>
-    const ratings = `@Html.Raw(String.Concat(Model.Select(x => $"<option value=\"{x.Id}\">{x.Name}</option>\n").DefaultIfEmpty(string.Empty)))`;
-    function increaseNr() {
+    const locations = `@Html.Raw(String.Concat(Model.Select(x => $"<option value=\"{x.Id}\">{x.Name}</option>\n").DefaultIfEmpty(string.Empty)))`;
+
+    function increaseRating() {
             //Fetch data
             let element = document.getElementById("RatingsCount");
             let nuNr = Number(element.getAttribute("value")) + 1;
@@ -66,7 +73,7 @@
             let nameIn = document.createElement("select");
             nameIn.setAttribute("name", "RatingTarget" + nuNr);
             nameIn.setAttribute("class", "form-control");
-			nameIn.innerHTML = ratings;
+            nameIn.innerHTML = locations;
             baseline.appendChild(nameIn);
             //Append tags label
             let tagsLbl = document.createElement("label");
@@ -93,17 +100,63 @@
             baseline.appendChild(lowerIn);
 
             parent.appendChild(baseline);
-            element.setAttribute("value", nuNr); //Increase food count
+            element.setAttribute("value", nuNr); //Increase ratings count
         }
 
 
-        function decreaseNr() {
+        function decreaseRating() {
             //Fetch data
             let element = document.getElementById("RatingsCount");
             let val = Number(element.getAttribute("value"));
-            if (val < 1) return; //Don't do anything if no foods are present
+            if (val < 1) return; //Don't do anything if no ratings are present
             document.getElementById("Rating" + val).remove(); //Remove element
-            element.setAttribute("value", val - 1); //Reduce food count
+            element.setAttribute("value", val - 1); //Reduce ratings count
+        }
+
+        function increaseHistory() {
+            //Fetch data
+            let element = document.getElementById("HistoryCount");
+            let nuNr = Number(element.getAttribute("value")) + 1;
+            let parent = document.getElementById("History");
+
+            //Generate new div and set attributes
+            let baseline = document.createElement("div");
+            baseline.setAttribute("id", "History" + nuNr);
+            baseline.setAttribute("class", "History");
+            //Append header
+            let header = document.createElement("p");
+            header.innerHTML = "History " + nuNr + " :";
+            baseline.appendChild(header);
+            let idIn = document.createElement("input");
+            idIn.setAttribute("name", "HistoryId" + nuNr);
+            idIn.setAttribute("type", "hidden");
+            idIn.setAttribute("value", "null");
+            baseline.appendChild(idIn);
+            //Append name label
+            let nameLbl = document.createElement("label");
+            nameLbl.setAttribute("for", "HistoryTarget" + nuNr);
+            nameLbl.setAttribute("class", "control-label");
+            nameLbl.innerHTML = "Ziel";
+            baseline.appendChild(nameLbl);
+            //Append name input
+            let nameIn = document.createElement("select");
+            nameIn.setAttribute("name", "HistoryTarget" + nuNr);
+            nameIn.setAttribute("class", "form-control");
+            nameIn.innerHTML = locations;
+            baseline.appendChild(nameIn);
+            
+            parent.appendChild(baseline);
+            element.setAttribute("value", nuNr); //Increase history count
+        }
+
+
+        function decreaseHistory() {
+            //Fetch data
+            let element = document.getElementById("HistoryCount");
+            let val = Number(element.getAttribute("value"));
+            if (val < 1) return; //Don't do anything if no locations are present
+            document.getElementById("History" + val).remove(); //Remove element
+            element.setAttribute("value", val - 1); //Reduce history count
         }
 </script>
 

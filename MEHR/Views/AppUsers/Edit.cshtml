@@ -1,7 +1,12 @@
-﻿@model MEHR.Models.AppUser
+﻿@model (MEHR.Models.AppUser user, List<MEHR.Models.FoodLocation> foodLocations)
 
 @{
     Layout = null;
+    String GetFoodsWithSelected(int selected = -1)
+    {
+        var stuff = Model.foodLocations.Select(x => $"<option value=\"{x.Id}\"{(selected == x.Id ? " selected " : string.Empty)}>{x.Name}</option>\n");
+        return String.Concat(stuff.DefaultIfEmpty(string.Empty));
+    }
 }
 
 <!DOCTYPE html>
@@ -13,31 +18,188 @@
 </head>
 <body>
 
-<h4>AppUser</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CookieHash" class="control-label"></label>
-                <input asp-for="CookieHash" class="form-control" />
-                <span asp-validation-for="CookieHash" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <h4>AppUser</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" action="/admin/AppUsers/Edit/@Model.user.Id">
+                <div class="form-group">
+                    <label for="CookieHash" class="control-label">CookieHash</label>
+                    <span>0x</span><input name="CookieHash" class="form-control" value="@Model.user.CookieHash.ToString("X")" />
+                </div>
+                <div id="Ratings" class="form-group">
+                    <h2>Ratings</h2>
+                    <input type="hidden" name="RatingsCount" id="RatingsCount" value="@(Model.user.Ratings?.Count ?? 0)" />
+                    @{
+                        var counter = 0;
+                        foreach (var item in Model.user.Ratings!)
+                        {
+                            counter++;
+                            <div id="@("Rating" + counter)" class="Rating">
+                                <p>Rating @counter:</p>
+                                <label for="@("RatingTarget" + counter)" class="control-label">Ziel</label>
+                                <select name="@("RatingTarget" + counter)" class="form-control">@Html.Raw(GetFoodsWithSelected(item.Location?.Id ?? -1))</select>
+                                <label for="@("RatingVal" + counter)" class="control-label">Bewertung</label>
+                                <input name="@("RatingVal" + counter)" class="form-control" value="@item.Rating">
+                                <label for="@("RatingText" + counter)" class="control-label">Text</label>
+                                <input name="@("RatingText" + counter)" class="form-control" value="@item.Text">
+                            </div>
+                        }
+                    }
+                </div>
+                <div id="History" class="form-group">
+                    <h2>History</h2>
+                    <input type="hidden" name="HistoryCount" id="HistoryCount" value="@(Model.user.History?.Count ?? 0)" />
+                    @{
+                        counter = 0;
+                        foreach (var item in Model.user.History!)
+                        {
+                            counter++;
+                            <div id="@("History" + counter)" class="History">
+                                <p>History @counter:</p>
+                                <input name="@("HistoryId" + counter)" type="hidden" value="@item.Id">
+                                <label for="@("HistoryTarget" + counter)" class="control-label">Ziel</label>
+                                <select name="@("HistoryTarget" + counter)" class="form-control">@Html.Raw(GetFoodsWithSelected(item.Location.Id))</select>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </form>
+
+            <br />
+            <button onclick="increaseRating()">Add Rating</button>
+            <button onclick="decreaseRating()">Remove Rating</button><br />
+            <button onclick="increaseHistory()">Add Location to History</button>
+            <button onclick="decreaseHistory()">Remove Location from History</button><br />
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+    <script>
+        const locations = `@Html.Raw(GetFoodsWithSelected())`;
+
+        function increaseRating() {
+            //Fetch data
+            let element = document.getElementById("RatingsCount");
+            let nuNr = Number(element.getAttribute("value")) + 1;
+            let parent = document.getElementById("Ratings");
+
+            //Generate new div and set attributes
+            let baseline = document.createElement("div");
+            baseline.setAttribute("id", "Rating" + nuNr);
+            baseline.setAttribute("class", "Rating");
+            //Append header
+            let header = document.createElement("p");
+            header.innerHTML = "Rating " + nuNr + " :";
+            baseline.appendChild(header);
+            //Append name label
+            let nameLbl = document.createElement("label");
+            nameLbl.setAttribute("for", "RatingTarget" + nuNr);
+            nameLbl.setAttribute("class", "control-label");
+            nameLbl.innerHTML = "Ziel";
+            baseline.appendChild(nameLbl);
+            //Append name input
+            let nameIn = document.createElement("select");
+            nameIn.setAttribute("name", "RatingTarget" + nuNr);
+            nameIn.setAttribute("class", "form-control");
+            nameIn.innerHTML = locations;
+            baseline.appendChild(nameIn);
+            //Append tags label
+            let tagsLbl = document.createElement("label");
+            tagsLbl.setAttribute("for", "RatingVal" + nuNr);
+            tagsLbl.setAttribute("class", "control-label");
+            tagsLbl.innerHTML = "Bewertung";
+            baseline.appendChild(tagsLbl);
+            //Append tags input
+            let tagsIn = document.createElement("input");
+            tagsIn.setAttribute("name", "RatingVal" + nuNr);
+            tagsIn.setAttribute("class", "form-control");
+            tagsIn.setAttribute("value", "0");
+            baseline.appendChild(tagsIn);
+            //Append lower label
+            let lowerLbl = document.createElement("label");
+            lowerLbl.setAttribute("for", "RatingText" + nuNr);
+            lowerLbl.setAttribute("class", "control-label");
+            lowerLbl.innerHTML = "Text";
+            baseline.appendChild(lowerLbl);
+            //Append lower input
+            let lowerIn = document.createElement("input");
+            lowerIn.setAttribute("name", "RatingText" + nuNr);
+            lowerIn.setAttribute("class", "form-control");
+            baseline.appendChild(lowerIn);
+
+            parent.appendChild(baseline);
+            element.setAttribute("value", nuNr); //Increase ratings count
+        }
+
+
+        function decreaseRating() {
+            //Fetch data
+            let element = document.getElementById("RatingsCount");
+            let val = Number(element.getAttribute("value"));
+            if (val < 1) return; //Don't do anything if no ratings are present
+            document.getElementById("Rating" + val).remove(); //Remove element
+            element.setAttribute("value", val - 1); //Reduce ratings count
+        }
+
+        function increaseHistory() {
+            //Fetch data
+            let element = document.getElementById("HistoryCount");
+            let nuNr = Number(element.getAttribute("value")) + 1;
+            let parent = document.getElementById("History");
+
+            //Generate new div and set attributes
+            let baseline = document.createElement("div");
+            baseline.setAttribute("id", "History" + nuNr);
+            baseline.setAttribute("class", "History");
+            //Append header
+            let header = document.createElement("p");
+            header.innerHTML = "History " + nuNr + " :";
+            baseline.appendChild(header);
+            let idIn = document.createElement("input");
+            idIn.setAttribute("name", "HistoryId" + nuNr);
+            idIn.setAttribute("type", "hidden");
+            idIn.setAttribute("value", "null");
+            baseline.appendChild(idIn);
+            //Append name label
+            let nameLbl = document.createElement("label");
+            nameLbl.setAttribute("for", "HistoryTarget" + nuNr);
+            nameLbl.setAttribute("class", "control-label");
+            nameLbl.innerHTML = "Ziel";
+            baseline.appendChild(nameLbl);
+            //Append name input
+            let nameIn = document.createElement("select");
+            nameIn.setAttribute("name", "HistoryTarget" + nuNr);
+            nameIn.setAttribute("class", "form-control");
+            nameIn.innerHTML = locations;
+            baseline.appendChild(nameIn);
+
+            parent.appendChild(baseline);
+            element.setAttribute("value", nuNr); //Increase history count
+        }
+
+
+        function decreaseHistory() {
+            //Fetch data
+            let element = document.getElementById("HistoryCount");
+            let val = Number(element.getAttribute("value"));
+            if (val < 1) return; //Don't do anything if no locations are present
+            document.getElementById("History" + val).remove(); //Remove element
+            element.setAttribute("value", val - 1); //Reduce history count
+        }
+    </script>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </body>
 </html>
