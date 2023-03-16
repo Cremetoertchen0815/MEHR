@@ -1,5 +1,4 @@
 using MEHR.Contexts;
-using MEHR.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

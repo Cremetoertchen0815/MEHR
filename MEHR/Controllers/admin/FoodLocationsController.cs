@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MEHR.Controllers.admin
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-	[Route("admin/FoodLocations")]
+    [Route("admin/FoodLocations")]
     public class FoodLocationsController : Controller
     {
         private readonly DataContext _context;
@@ -37,7 +37,7 @@ namespace MEHR.Controllers.admin
                 return NotFound();
             }
 
-			var foodLocation = await _context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).Include(x => x.Ratings).FirstOrDefaultAsync(m => m.Id == id);
+            var foodLocation = await _context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).Include(x => x.Ratings).FirstOrDefaultAsync(m => m.Id == id);
             if (foodLocation == null)
             {
                 return NotFound();

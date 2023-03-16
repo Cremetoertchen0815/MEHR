@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MEHR.Models;
+﻿namespace MEHR.Models;
 
 public class Food
 {

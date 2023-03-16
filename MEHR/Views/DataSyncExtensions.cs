@@ -1,9 +1,6 @@
 ﻿using MEHR.Contexts;
 using MEHR.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace MEHR.Views;
 
@@ -51,7 +48,7 @@ public static class DataSyncExtensions
     public static AppUser ParseData(this AppUser appUser, Dictionary<string, string> parameters, DataContext context)
     {
         appUser.CookieHash = ulong.Parse(parameters["CookieHash"], System.Globalization.NumberStyles.HexNumber);
-        
+
         //Add missing rating slots
         int count = int.Parse(parameters["RatingsCount"]);
         if (appUser.Ratings is null) appUser.Ratings = new List<LocationRating>();
@@ -79,7 +76,8 @@ public static class DataSyncExtensions
                 //Item not yet in list
                 var nuItm = new HistoryItem() { CreationDate = DateTime.Now.ToBinary(), Owner = appUser, Location = nuLocation };
                 appUser.History.Add(nuItm);
-            } else if (nuLocation is not null && int.TryParse(idx, out int loc))
+            }
+            else if (nuLocation is not null && int.TryParse(idx, out int loc))
             {
                 var item = context.HistoryItems.FirstOrDefault(x => x.Id == loc && x.Owner == appUser);
                 if (item is null || item.Location == nuLocation) continue;

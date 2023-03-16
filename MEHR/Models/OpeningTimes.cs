@@ -14,7 +14,7 @@ public struct OpeningTimes
     public (TimeOnly Start, TimeOnly End) Thursday { get; set; }
     public (TimeOnly Start, TimeOnly End) Friday { get; set; }
 
-    public string ToHtml() 
+    public string ToHtml()
     {
         StringBuilder sb = new StringBuilder();
         if ((Monday.End - Monday.Start).Ticks > 0) sb.AppendLine($"Monday: {Monday.Start}-{Monday.End}<br>");

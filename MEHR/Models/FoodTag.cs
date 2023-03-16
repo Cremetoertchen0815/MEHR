@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace MEHR.Models;
+﻿namespace MEHR.Models;
 
 public class FoodTag
 {

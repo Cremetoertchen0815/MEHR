@@ -1,11 +1,9 @@
-﻿using Newtonsoft.Json;
-
-namespace MEHR.Models;
+﻿namespace MEHR.Models;
 
 [Serializable]
 public struct TimeRange
 {
-    public TimeOnly OpeningTime {  get; set; }
+    public TimeOnly OpeningTime { get; set; }
     public TimeOnly ClosingTime { get; set; }
 
     public TimeRange(TimeOnly OpeningTime, TimeOnly LunchBreakStart, TimeOnly LunchBreakEnd, TimeOnly ClosingTime)
