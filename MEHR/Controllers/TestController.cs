@@ -4,30 +4,35 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MEHR.Controllers;
 [Controller]
-[Route("/app")]
+[Route("/TestApi")]
 public class TestController : Controller
 {
     private DataContext _context;
     public TestController(DataContext context) => _context = context;
 
-    [HttpGet]
-    public string DoStufff()
-    {
-        var loolsoos = new Food() { LowerPriceRange = 5.50m, UpperPriceRange = 8m, Name = "N' Döner!" };
+    public string? WorkingText = "Big boner down the lane";
 
-        var ele = new FoodLocation()
-        {
-            Name = "Location A",
-            Description = "Essen gibts hier",
-            LocationLatitude = 0.1f,
-            LocationLongitude = 0.2f,
-            PhoneNumber = "+491746074035",
-            HasDelivery = false,
-            Icon = 50
-        };
-        ele.Foods.Add(loolsoos);
-        _context.FoodLocations.Add(ele);
-        _context.SaveChanges();
-        return "Woooooow!";
+    [HttpGet]
+    public string GetStuff() => $"This GET call is working! Your current working text is: {WorkingText ?? "nothing at all"}";
+
+    [HttpPost]
+    public string PostStuff(string text)
+    {
+        WorkingText = text;
+        return $"Thanks for posting stuff! {text ?? "nothing at all"} all day long!";
+    }
+
+    [HttpPut]
+    public string PutStuff(string text)
+    {
+        WorkingText = text;
+        return $"Thanks for put put put putting stuff! Does the exact same thing as posting rn tho lol lmao big L \n {text ?? "nothing at all"} all day long!";
+    }
+
+    [HttpDelete]
+    public string DeleteStuff()
+    {
+        WorkingText = null;
+        return "Now our text is gone. Great job, idiot!";
     }
 }
