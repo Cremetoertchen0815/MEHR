@@ -26,4 +26,13 @@ public struct OpeningTimes
         return sb.ToString();
     }
 
+    public bool IsOpenAt(DateTime date) => date.DayOfWeek switch
+    {
+        DayOfWeek.Monday => Monday.Start.ToTimeSpan() >= date.TimeOfDay && Monday.End.ToTimeSpan() < date.TimeOfDay,
+        DayOfWeek.Tuesday => Monday.Start.ToTimeSpan() >= date.TimeOfDay && Monday.End.ToTimeSpan() < date.TimeOfDay,
+        DayOfWeek.Wednesday => Monday.Start.ToTimeSpan() >= date.TimeOfDay && Monday.End.ToTimeSpan() < date.TimeOfDay,
+        DayOfWeek.Thursday => Monday.Start.ToTimeSpan() >= date.TimeOfDay && Monday.End.ToTimeSpan() < date.TimeOfDay,
+        DayOfWeek.Friday => Monday.Start.ToTimeSpan() >= date.TimeOfDay && Monday.End.ToTimeSpan() < date.TimeOfDay,
+        _ => false
+    }; //TODO: Add Season check
 }
