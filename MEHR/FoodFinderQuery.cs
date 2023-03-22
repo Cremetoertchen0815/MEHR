@@ -1,12 +1,11 @@
-﻿using MEHR.Models;
-
-namespace MEHR;
+﻿namespace MEHR;
 
 public record struct FoodFinderQuery
 (
     double? MaxDistanceInKM,
     decimal? MaxPriceInEuro,
-    List<string>? AssociatedTags,
+    List<string> AssociatedTags,
     bool CurrentlyOpen,
     bool IsDeleviring
-) { }
+)
+{ }

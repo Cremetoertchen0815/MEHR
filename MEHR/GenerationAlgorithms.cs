@@ -8,10 +8,10 @@ public static class GenerationAlgorithms
     /// <summary>
     /// Filters all FoodLocations in the database for the specified query and sorts it by distance from the user.
     /// </summary>
-    /// <param name="query">User query(filter options issues by the user)</param>
+    /// <param name="query">User query(filter options input by the user)</param>
     /// <param name="locLat">The latitude of the user position(coordinate).</param>
-    /// <param name="locLong">The longitude of the user position.</param>
-    /// <param name="context"></param>
+    /// <param name="locLong">The longitude of the user position(coordinate).</param>
+    /// <param name="context">The database context for accessing data.</param>
     public static List<FoodLocation> QueryFoodFinder(FoodFinderQuery query, double locLat, double locLong, DataContext context) =>
         //Query all food locations from the database
         context.FoodLocations.AsEnumerable()
