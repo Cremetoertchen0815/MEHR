@@ -8,7 +8,8 @@ namespace MEHR.Controllers
     {
 
         [HttpPost]
-        public int CreateUser() {
+        public int CreateUser()
+        {
             return 0;
         }
     }

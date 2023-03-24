@@ -1,6 +1,4 @@
-﻿using MEHR.Other;
-
-namespace MEHR.Models;
+﻿namespace MEHR.Models;
 
 public record struct RatingInfo
 (
