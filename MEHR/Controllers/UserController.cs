@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MEHR.Contexts;
+using MEHR.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MEHR.Controllers
 {
@@ -6,11 +8,18 @@ namespace MEHR.Controllers
     [Route("/UserControllerApi")]
     public class UserController : Controller
     {
+        private DataContext _context;
+        public UserController(DataContext context) => _context = context;
 
         [HttpPost]
-        public int CreateUser()
+        public ulong CreateUser()
         {
-            return 0;
+            var newId = ((long)Random.Shared.Next() <<  32) + (long)Random.Shared.Next();
+            var user = new AppUser();
+            user.CookieHash = (ulong)newId;
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return (ulong)newId;
         }
     }
 }
