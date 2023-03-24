@@ -1,5 +1,6 @@
 ﻿using MEHR.Contexts;
 using MEHR.Models;
+using MEHR.Other;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MEHR.Controllers
@@ -12,10 +13,10 @@ namespace MEHR.Controllers
         public FoodFinderController(DataContext context) => _context = context;
 
         [HttpGet]
-        public List<FoodLocation> GetFoodLocations(double? MaxDistanceInKM, decimal? MaxPriceInEuro, List<string> AssociatedTags, bool CurrentlyOpen, bool IsDeleviring, double locLat, double locLong)
+        public LocationInfo[] GetFoodLocations(double? MaxDistanceInKM, decimal? MaxPriceInEuro, List<string> AssociatedTags, bool CurrentlyOpen, bool IsDeleviring, double locLat, double locLong)
         {
-
-            return GenerationAlgorithms.QueryFoodFinder(new FoodFinderQuery(MaxDistanceInKM, MaxPriceInEuro, AssociatedTags, CurrentlyOpen, IsDeleviring), locLat, locLong, _context);
+            var query =  GenerationAlgorithms.QueryFoodFinder(new FoodFinderQuery(MaxDistanceInKM, MaxPriceInEuro, AssociatedTags, CurrentlyOpen, IsDeleviring), locLat, locLong, _context);
+            return query.Select(x => LocationInfo.FromFoodLocation(x)).ToArray();
         }
     }
 }
