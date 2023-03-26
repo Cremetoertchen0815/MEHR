@@ -44,5 +44,6 @@ public static class GenerationAlgorithms
         var user = context.Users.Include(x => x.History!).ThenInclude(x => x.Location).FirstOrDefault(x => x.CookieHash == userID);
         if (user == null) return null;
         var history = user.History!.OrderByDescending(x => x.CreationDate).Take(10).ToList();
+
     }
 }
