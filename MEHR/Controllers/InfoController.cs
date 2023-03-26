@@ -1,6 +1,7 @@
 ﻿using MEHR.Contexts;
 using MEHR.Other;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MEHR.Controllers
 {
@@ -12,11 +13,12 @@ namespace MEHR.Controllers
         public InfoController(DataContext context) => _context = context;
 
         [HttpGet]
-        public LocationInfo GetLocationInfo(int id)
+        public IActionResult GetLocationInfo(int id)
         {
-            var location = _context.FoodLocations.First(x => x.Id == id);
+            var location = _context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).Include(x => x.Ratings).FirstOrDefault(x => x.Id == id);
+            if (location == null) return BadRequest();
 
-            return LocationInfo.FromFoodLocation(location);
+            return Json(LocationInfo.FromFoodLocation(location));
         }
     }
 }

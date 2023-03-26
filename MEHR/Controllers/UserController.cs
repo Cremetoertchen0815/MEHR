@@ -14,9 +14,8 @@ namespace MEHR.Controllers
         [HttpPost]
         public ulong CreateUser()
         {
-            var newId = ((long)Random.Shared.Next() <<  32) + (long)Random.Shared.Next();
-            var user = new AppUser();
-            user.CookieHash = (ulong)newId;
+            var newId = ((long)Random.Shared.Next() << 32) + Random.Shared.Next();
+            var user = new AppUser() { CookieHash = (ulong)newId };
             _context.Users.Add(user);
             _context.SaveChanges();
             return (ulong)newId;

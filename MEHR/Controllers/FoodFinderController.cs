@@ -15,7 +15,7 @@ namespace MEHR.Controllers
         public LocationInfo[] GetFoodLocations(double? MaxDistanceInKM, decimal? MaxPriceInEuro, List<string> AssociatedTags, bool CurrentlyOpen, bool IsDeleviring, double locLat, double locLong)
         {
             var query = GenerationAlgorithms.QueryFoodFinder(new FoodFinderQuery(MaxDistanceInKM, MaxPriceInEuro, AssociatedTags, CurrentlyOpen, IsDeleviring), locLat, locLong, _context);
-            return query.Select(x => LocationInfo.FromFoodLocation(x)).ToArray();
+            return query.Select(LocationInfo.FromFoodLocation).ToArray();
         }
     }
 }
