@@ -1,6 +1,6 @@
 ﻿using MEHR.Models;
 
-namespace MEHR.Other;
+namespace MEHR;
 
 public record struct LocationInfo
 (

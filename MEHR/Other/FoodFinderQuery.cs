@@ -3,7 +3,7 @@
 public record struct FoodFinderQuery
 (
     double? MaxDistanceInKM,
-    decimal? MaxPriceInEuro,
+    decimal? MaxPriceInEUR,
     List<string> AssociatedTags,
     bool CurrentlyOpen,
     bool IsDeleviring
