@@ -1,5 +1,4 @@
 ﻿using MEHR.Contexts;
-using MEHR.Other;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MEHR.Controllers
