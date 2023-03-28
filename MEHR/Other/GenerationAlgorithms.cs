@@ -55,7 +55,7 @@ public static class GenerationAlgorithms
         var history = context.HistoryItems.Where(x => x.Owner.Id == user.Id).OrderByDescending(x => x.CreationDate)
                                             .Select(x => x.Location.Id).Take(FOOD_PLANNER_HISTORY_SAMPLES).ToList()!;
         // Fetch all foods and filter by query
-        var locations = context.FoodLocations.Include(x => x.Ratings).AsEnumerable().Where(x =>
+        var locations = context.FoodLocations.Include(x => x.Ratings!).ThenInclude(x => x.Author).AsEnumerable().Where(x =>
             {
                 var distance = HelperAPIs.GetLocationBetweenCoords(locLat, locLong, x.LocationLatitude, x.LocationLongitude);
                 //Query parameters all have an ignore state, which if set, the parameter can be ignored and is always true
@@ -63,7 +63,7 @@ public static class GenerationAlgorithms
                 var costParam = query.MaxPriceInEUR is null || x.Foods!.Min(x => x.LowerPriceRange) <= query.MaxPriceInEUR; // Ignore state: null
                 //Filter holds true when all parameters are true, so are either ignored or hold true
                 return distanceParam && costParam;
-            });
+            }).ToArray();
 
         return Enumerable.Range(0, FOOD_PLANNER_ELEMENTS).Select(_ =>
         {
@@ -106,7 +106,7 @@ public static class GenerationAlgorithms
 
             //Generate result and save in history
             var result = GenerateResult();
-            history.Prepend(result.Id);
+            history.Insert(0, result.Id);
             context.HistoryItems.Add(new HistoryItem() { CreationDate = DateTime.Now.ToBinary(), Location = result, Owner = user });
 
             return result;
