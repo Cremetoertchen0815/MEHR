@@ -65,6 +65,9 @@ public static class GenerationAlgorithms
                 return distanceParam && costParam;
             }).ToArray();
 
+        //Clear history to prevent build up
+        context.RemoveRange(context.HistoryItems.Include(x => x.Owner).Where(x => x.Owner.Id == user.Id));
+
         return Enumerable.Range(0, FOOD_PLANNER_ELEMENTS).Select(_ =>
         {
             //Assign scores and order by said scores
@@ -79,7 +82,7 @@ public static class GenerationAlgorithms
                 var historyIndex = history.IndexOf(x.Id);
                 if (historyIndex > -1)
                 {
-                    var reoccurenceFactor = 1 - historyIndex / FOOD_PLANNER_HISTORY_SAMPLES;
+                    var reoccurenceFactor = 1 - (historyIndex + 0.1f) / FOOD_PLANNER_HISTORY_SAMPLES;
                     baseScore *= 1 - query.Diversity * reoccurenceFactor;
                 }
 
@@ -103,7 +106,7 @@ public static class GenerationAlgorithms
 
                 return locationScores.Last().Location;
             }
-
+            
             //Generate result and save in history
             var result = GenerateResult();
             history.Insert(0, result.Id);
