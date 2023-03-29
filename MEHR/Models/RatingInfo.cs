@@ -3,7 +3,7 @@
 public record struct RatingInfo
 (
     string Text,
-    float RatingNr
+    int RatingNr
 )
 {
     public static RatingInfo FromRating(LocationRating rating) => new RatingInfo(rating.Text ?? "-", rating.Rating);

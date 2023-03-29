@@ -58,7 +58,7 @@ public static class DataSyncExtensions
         {
             var item = appUser.Ratings.ElementAt(i - 1);
             item.Location = context.FoodLocations.Include(x => x.Ratings).FirstOrDefault(x => x.Id == int.Parse(parameters["RatingTarget" + i]));
-            item.Rating = float.Parse(parameters["RatingVal" + i]);
+            item.Rating = int.Parse(parameters["RatingVal" + i]);
             item.Text = parameters["RatingText" + i];
             item.Author = appUser;
         }
