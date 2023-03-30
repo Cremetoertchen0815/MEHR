@@ -13,6 +13,7 @@ namespace MEHR.Controllers
         public InfoController(DataContext context) => _context = context;
 
         [HttpGet]
+        [ProducesResponseType(typeof(LocationInfo), 200)]
         public IActionResult GetLocationInfo(int id)
         {
             var location = _context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).Include(x => x.Ratings).FirstOrDefault(x => x.Id == id);
