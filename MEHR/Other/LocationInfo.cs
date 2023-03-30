@@ -10,6 +10,7 @@ public record struct LocationInfo
     string Name,
     string Description,
     string PhoneNumber,
+    string Address,
     bool HasDelivery,
     FoodInfo[] Foods,
     RatingInfo[] Ratings
@@ -21,6 +22,7 @@ public record struct LocationInfo
         location.Name ?? "-",
         location.Description ?? "-",
         location.PhoneNumber ?? "-",
+        location.Address ?? "-",
         location.HasDelivery,
         location.Foods?.Select(x => FoodInfo.FromFood(x)).ToArray() ?? Array.Empty<FoodInfo>(),
         location.Ratings?.Select(x => RatingInfo.FromRating(x)).ToArray() ?? Array.Empty<RatingInfo>());

@@ -9,9 +9,10 @@ public static class DataSyncExtensions
     public static FoodLocation ParseData(this FoodLocation foodLocation, Dictionary<string, string> parameters, DataContext context)
     {
         //Parse regular data
-        foodLocation.Description = parameters["Description"];
         foodLocation.Name = parameters["Name"];
+        foodLocation.Description = parameters["Description"];
         foodLocation.PhoneNumber = parameters["PhoneNumber"];
+        foodLocation.Address = parameters["Address"];
         foodLocation.LocationLatitude = double.Parse(parameters["LocationLatitude"]);
         foodLocation.LocationLongitude = double.Parse(parameters["LocationLongitude"]);
         foodLocation.HasDelivery = parameters.ContainsKey("HasDelivery");

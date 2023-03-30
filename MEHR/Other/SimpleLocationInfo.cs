@@ -4,24 +4,17 @@ namespace MEHR.Other;
 
 public record struct SimpleLocationInfo
 (
-    double LocationLatitude,
-    double LocationLongitude,
-    int Icon,
     string Name,
-    string Description,
-    string PhoneNumber,
+    string Address,
     bool HasDelivery,
-    FoodInfo[] Foods,
-    RatingInfo[] Ratings
+    string Tags,
+    float AvrRating
 )
 {
-    public static SimpleLocationInfo FromFoodLocation(FoodLocation location) => new SimpleLocationInfo(location.LocationLatitude,
-        location.LocationLongitude,
-        location.Icon,
+    public static SimpleLocationInfo FromFoodLocation(FoodLocation location) => new SimpleLocationInfo(
         location.Name ?? "-",
-        location.Description ?? "-",
-        location.PhoneNumber ?? "-",
+        location.Address ?? "-",
         location.HasDelivery,
-        location.Foods?.Select(x => FoodInfo.FromFood(x)).ToArray() ?? Array.Empty<FoodInfo>(),
-        location.Ratings?.Select(x => RatingInfo.FromRating(x)).ToArray() ?? Array.Empty<RatingInfo>());
+        string.Join(", ", location.Foods!.Where(x => x?.Tag?.Name is not null).Select(x => x.Tag!.Name!).Distinct()),
+        (float)Math.Round(location.Ratings?.Select(x => x.Rating).ToArray().Average() ?? 5d));
 }
