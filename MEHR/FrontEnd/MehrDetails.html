@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="load();">
+    <h1><a href="MehrMenu.html">einfach M.E.H.R</a></h1>
+    <div>
+        <p id="name"><b>Name: </b></p>
+        <p id="description"><b>Description: </b></p>
+        <p id="phoneNumber"><b>Phone Number: </b></p>
+        <p id="address"><b>Adresse: </b></p>
+        <p id="openingTimesHTML"><b>Opening Times: </b> <br /> </p>
+        <p><b>Liefert: </b><input type="checkbox" id="hasDelivery" disabled="disabled" /></p>
+        <b>Essen: </b> <br />
+        <ul id="food"></ul>
+        <b>Bewertungen: </b> <br />
+        <ul id="rating"></ul>
+        <input id="addRating" />
+    </div>
+
+    <div id="uselessEasterEgg"></div>
+    <style>
+        body {
+            background-color: cornflowerblue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 10px;
+        }
+
+        a {
+            color: darkblue;
+            text-decoration: none;
+        }
+
+        p {
+            color: red;
+        }
+
+        div {
+            background-color: wheat;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #uselessEasterEgg {
+            background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
+            background-repeat: repeat-x;
+            width: 100%;
+            height: 256px;
+            position: fixed;
+            bottom: 0px;
+            background-color: transparent;
+            left: 0px;
+            margin-bottom: -20px;
+            pointer-events: none;
+        }
+    </style>
+    <script>
+        function load() {
+            var URLparams = new URLSearchParams(window.location.search);
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", "http://localhost:5249/InfoContollerApi" + "?id=" + URLparams.get("id"),false);
+            xmlHttp.send(null);
+            console.log(xmlHttp.response);
+            var json = JSON.parse(xmlHttp.response);
+            document.getElementById("name").innerHTML += json.name;
+            document.getElementById("description").innerHTML += json.description;
+            document.getElementById("phoneNumber").innerHTML += json.phoneNumber;
+            document.getElementById("address").innerHTML += json.address;
+            document.getElementById("openingTimesHTML").innerHTML += json.openingTimesHTML;
+            document.getElementById("hasDelivery").checked += json.hasDelivery;
+            var FoodListe = document.getElementById("food");
+            for (var i = 0; i < json.foods.length; i++) {
+                var listElement = document.createElement("li");
+                listElement.innerHTML = json.foods[i].name + "(#" + json.foods[i].tag + " " + json.foods[i].lowerPriceRange + "€ ~ " + json.foods[i].upperPriceRange + "€)";
+                FoodListe.appendChild(listElement);
+            }
+            var RatingListe = document.getElementById("rating");
+            for (var i = 0; i < json.ratings.length; i++) {
+                var listElement = document.createElement("li");
+                listElement.innerHTML = json.ratings[i].ratingNr + "/10: " + json.ratings[i].text;
+                RatingListe.appendChild(listElement);
+            }
+        }
+    </script>
+</body>
+</html>

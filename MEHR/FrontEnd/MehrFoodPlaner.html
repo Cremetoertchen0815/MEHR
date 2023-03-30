@@ -7,15 +7,15 @@
     <title>Mehr Food Planer</title>
 </head>
 <body onload="getLoc();">
-
+    <h1><a href="MehrMenu.html">einfach M.E.H.R</a></h1>
     <div style="width: 90%; overflow: hidden;">
         <div style="width: 600px; float: left;">
             <h2>Planen sie ihre Wochen mit uns ihre Lebensgefährten im Krieg und in der Liebe!</h2>
             <h3>Nutzen sie die Daten aller Restaurants/Inbisse in der Weltmetropole Mosbach!</h3>
             <p>Maximale entfernung in km</p>
-            <input id="MaxD">
+            <input id="MaxD" value="0">
             <p>Maximaler Preis in Euros</p>
-            <input id="MaxP">
+            <input id="MaxP" value="0">
             <p>Wie abwechslungsreich darfs sein, werter HERR? :)</p>
             <input type="range" min="1" max="100" value="50" class="slider" id="diversity">
             <p>haben sie ebenfalls ein geringes selbstwert gefühl? Wählen sie nun wie viel bedeutung sie der Meinung anderer geben wollen :D</p>
@@ -41,8 +41,9 @@
             padding: 10px;
         }
 
-        h1 {
+        a {
             color: darkblue;
+            text-decoration: none;
         }
 
         p {
@@ -86,69 +87,70 @@
             var tst = readCookie("userID");
             if (tst == null) {
                 var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open("POST", "http://localhost:5249/UserControllerApi" , false);
+                xmlHttp.open("POST", "http://localhost:5249/UserControllerApi", false);
                 xmlHttp.send(null);
                 var ergebnis = xmlHttp.response;
-                createCookie("userID",ergebnis,365);
-                console.log("User erstellt")
+                createCookie("userID", ergebnis, 365);
+                console.log(document.cookie);
+                console.log("User erstellt");
             }
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         }
 
         function fillTable() {
-            var wochTags = [ "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"];
-    // Create the list element:
-    var table = document.getElementById("MosbachSearchUL");
+            var wochTags = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"];
+            // Create the list element:
+            var table = document.getElementById("MosbachSearchUL");
 
-    // TO-DO make HTTP Call to get array
+            // TO-DO make HTTP Call to get array
             var xmlHttp = new XMLHttpRequest();
             var userID = readCookie("userID");
-            xmlHttp.open("GET", "http://localhost:5249/FoodPlannerApi" + "?MaxDistanceInKM=" + document.getElementById("MaxD").value + "&MaxPriceInEuro=" + document.getElementById("MaxP").value + "&Diversity=" +( document.getElementById("diversity").value/100) + "&ExternalInfluence=" + (document.getElementById("externalInfluence").value/100) +"&userID="+ userID + "&locLat=" + pos.coords.latitude + "&locLong=" + pos.coords.longitude, false);
-    xmlHttp.send(null);
-    var array = JSON.parse(xmlHttp.response);
-    table.innerHTML = "";
-    for (var i = 0; i < array.length; i++) {
-    // Create the list item:
-        var row = document.createElement('tr');
+            xmlHttp.open("GET", "http://localhost:5249/FoodPlannerApi" + "?MaxDistanceInKM=" + document.getElementById("MaxD").value + "&MaxPriceInEuro=" + document.getElementById("MaxP").value + "&Diversity=" + (document.getElementById("diversity").value / 100) + "&ExternalInfluence=" + (document.getElementById("externalInfluence").value / 100) + "&userID=" + userID + "&locLat=" + pos.coords.latitude + "&locLong=" + pos.coords.longitude, false);
+            xmlHttp.send(null);
+            var array = JSON.parse(xmlHttp.response);
+            table.innerHTML = "";
+            for (var i = 0; i < array.length; i++) {
+                // Create the list item:
+                var row = document.createElement('tr');
 
 
-        var day = document.createElement('td');
-        day.innerHTML = wochTags[i];
-        row.appendChild(day);
+                var day = document.createElement('td');
+                day.innerHTML = wochTags[i];
+                row.appendChild(day);
 
-    var namer = document.createElement('td');
-    namer.innerHTML = array[i].name;
-    row.appendChild(namer);
+                var namer = document.createElement('td');
+                namer.innerHTML = array[i].name;
+                row.appendChild(namer);
 
-    var addr = document.createElement('td');
-    addr.innerHTML = array[i].address;
-    row.appendChild(addr);
+                var addr = document.createElement('td');
+                addr.innerHTML = array[i].address;
+                row.appendChild(addr);
 
-    var deliv = document.createElement('td');
-    deliv.innerHTML = array[i].hasDelivery;
-    row.appendChild(deliv);
+                var deliv = document.createElement('td');
+                deliv.innerHTML = array[i].hasDelivery;
+                row.appendChild(deliv);
 
-    var tach3 = document.createElement('td');
-    tach3.innerHTML = array[i].tags;
-    row.appendChild(tach3);
+                var tach3 = document.createElement('td');
+                tach3.innerHTML = array[i].tags;
+                row.appendChild(tach3);
 
-    var rat = document.createElement('td');
-    rat.innerHTML = array[i].avrRating+"/10";
-    row.appendChild(rat);
+                var rat = document.createElement('td');
+                rat.innerHTML = array[i].avrRating + "/10";
+                row.appendChild(rat);
 
-    // Add it to the list:
-    table.appendChild(row);
+                // Add it to the list:
+                table.appendChild(row);
             }
 
         }
         function createCookie(name, value, days) {
             if (days) {
                 var date = new Date();
-                date.setTime(date.getTime() + (days*24*60*60*1000));
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 var expires = "; expires=" + date.toGMTString();
             }
             else var expires = "";
-            document.cookie = name + "=" + value + expires + "; path=/";
+            document.cookie = name + "=" + value + expires + "; path=/; samesite=lax";
         }
 
         function readCookie(name) {
