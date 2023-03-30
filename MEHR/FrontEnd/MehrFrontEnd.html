@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>einfach M.E.H.R.</title>
 </head>
-<body>
+<body onload="getLoc();">
 <h1>einfach M.E.H.R.</h1>
 
 <div style="width: 90%; overflow: hidden;">
@@ -23,25 +23,25 @@
         <input type="checkbox" id="isOpen" name="isOpen" value="open">
         <p>tragen sie einen Tag nach den sie Suchen(fuer alle Eintraege einfach leer lassen)</p>
         <input>
-        <button>Search</button>
+        <button onclick=" fillUL();">Search</button>
         <ul id = "MosbachSearchUL"></ul>
          </div>
     <div style="margin-left: 620px; width: 700px;">
         <h2>Keine Euros dabei um sich ne Leckere Mahlzeit zu besorgen ? Kein Problem wir zeigen ihnen den Aktuellen Geldwechselkurs</h2>
         Euro nach
         <h3>Geben sie die Menge ihrer Waehrung an</h3>
-            <input>
+            <input id="currencyAmount">
             <h3>Waehlen sie ihre Waehrung aus</h3>
-            <select name="waehrung" id="waehrung">
-                <option value="usd">US-Dollar</option>
-                <option value="gbp">Pfund Sterling</option>
-                <option value="chf">Schweizer Franken</option>
-                <option value="jpy">Yen</option>
-                <option value="irr">Iranische Rial</option>
+            <select name="SourceCurrency" id="SourceCurrency">
+                <option value="USD">US-Dollar</option>
+                <option value="GBP">Pfund Sterling</option>
+                <option value="CHF">Schweizer Franken</option>
+                <option value="JPY">Yen</option>
+                <option value="IRR">Iranische Rial</option>
             </select>
-          <button> Berechne </button>
+          <button onclick=" calcCurrent();"> Berechne </button>
           <h3>Ergebnis :</h3>
-        <p id = "curancy_Result"> test</p> </div>
+        <p id = "currency_Result"> test</p> </div>
 </div>
 
 <div id = "uselessEasterEgg"></div>
@@ -54,20 +54,51 @@
 
     #uselessEasterEgg{background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
         background-repeat: repeat-x;
-    width: 100%; height: 256px; position : fixed; bottom: 0px; background-color: transparent; left: 0px; margin-bottom: -20px;}
+    width: 100%; height: 256px; position : fixed; bottom: 0px; background-color: transparent; left: 0px; margin-bottom: -20px; pointer-events: none;}
     
     </style>
 <script>
     var options = [
-        set0 = ['Option 1','Option 2'],
-        set1 = ['First Option','Second Option','Third Option']
+        set0 = ['Option 1', 'Option 2'],
+        set1 = ['First Option', 'Second Option', 'Third Option']
     ];
+    var pos;
 
-function fillUL(id) {
+    function getLoc() {
+        const successCallback = (position) => {
+            console.log(position);
+            pos = position;
+        };
+
+        const errorCallback = (error) => {
+            console.log(error);
+            alert("du Schund du Schelm, du Horst du Hans wir brauchen deine Location um dir zu sagen wo der nächste Saftlagen ist.")
+            window.location.href = "MehrMenu.html"
+        };
+
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    }
+
+    function calcCurrent() {
+        var sourceC = document.getElementById("SourceCurrency").value;
+        var amountC = document.getElementById("currencyAmount").value;
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "http://localhost:5249/ChangeToEuro"+"?value="+amountC+"&currency="+sourceC, true);
+        xmlHttp.send(null);
+        document.getElementById("currency_Result").value = xmlHttp.responseText;
+    }
+
+    function fillUL() {
     // Create the list element:
-    var list = document.getElementById(id);
+        var list = document.getElementById("MosbachSearchUL");
+
 
     // TO-DO make HTTP Call to get array
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "http://localhost:5249/FoodFinderApi" + "?MaxDistanceInKM=" + amountC + "&MaxPriceInEuro=" + sourceC + "&AssociatedTags=" + sourceC + "&CurrentlyOpen=" + sourceC + "&IsDeleviring=" + sourceC + "&locLat=" + sourceC + "&locLong=" + sourceC, true);
+        xmlHttp.send(null);
+        document.getElementById("currency_Result").value = xmlHttp.responseText;
 
 
     for (var i = 0; i < array.length; i++) {
@@ -84,9 +115,6 @@ function fillUL(id) {
     // Finally, return the constructed list:
     return list;
 }
-
-// Add the contents of options[0] to #foo:
-document.getElementById('foo').appendChild(makeUL(options[0]));
     </script>
     <noscript>Sorry, your browser does not support JavaScript!</noscript> 
 </body>
