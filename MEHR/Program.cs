@@ -1,6 +1,5 @@
 using MEHR.Contexts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.

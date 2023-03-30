@@ -107,7 +107,7 @@ public static class GenerationAlgorithms
 
                 return locationScores.Last().Location;
             }
-            
+
             //Generate result and save in history
             var result = GenerateResult();
             history.Insert(0, result.Id);

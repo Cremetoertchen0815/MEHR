@@ -1,8 +1,6 @@
 ﻿using MEHR.Contexts;
 using MEHR.Models;
-using MEHR.Other;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
 
 namespace MEHR.Controllers
 {
@@ -16,7 +14,8 @@ namespace MEHR.Controllers
         public FoodRatingController(DataContext context) => _context = context;
 
         [HttpPost]
-        public void SetRating(int locationId, ulong userId, int rating, string ratingText) {
+        public void SetRating(int locationId, ulong userId, int rating, string ratingText)
+        {
             FoodLocation location = _context.FoodLocations.First(x => x.Id == locationId);
             AppUser user = _context.Users.First(x => x.CookieHash == userId);
 
