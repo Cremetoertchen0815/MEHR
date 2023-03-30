@@ -6,4 +6,5 @@ public record struct FoodPlannerQuery
     float ExternalInfluence,
     double? MaxDistanceInKM,
     decimal? MaxPriceInEUR
-) { }
+)
+{ }

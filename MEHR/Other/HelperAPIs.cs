@@ -1,6 +1,4 @@
-﻿using Geolocation;
-
-namespace MEHR;
+﻿namespace MEHR;
 
 public class HelperAPIs
 {
