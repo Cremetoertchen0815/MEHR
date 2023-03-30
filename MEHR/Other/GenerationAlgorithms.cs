@@ -18,7 +18,7 @@ public static class GenerationAlgorithms
     /// <param name="context">The database context for accessing data.</param>
     public static List<FoodLocation> QueryFoodFinder(FoodFinderQuery query, double locLat, double locLong, DataContext context) =>
         //Query all food locations from the database
-        context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).AsEnumerable()
+        context.FoodLocations.Include(x => x.Foods!).ThenInclude(x => x.Tag).Include(x => x.Ratings).AsEnumerable()
             //Calculate distance to user for each and convert to Enumeration of Tuple(FoodLocation, DistanceToUser)
             .Select(x => ((FoodLocation Item, double DistanceToUser))
                     (x, HelperAPIs.GetLocationBetweenCoords(locLat, locLong, x.LocationLatitude, x.LocationLongitude)))
