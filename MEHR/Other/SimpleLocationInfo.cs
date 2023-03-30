@@ -4,6 +4,7 @@ namespace MEHR.Other;
 
 public record struct SimpleLocationInfo
 (
+    int Id,
     string Name,
     string Address,
     bool HasDelivery,
@@ -12,6 +13,7 @@ public record struct SimpleLocationInfo
 )
 {
     public static SimpleLocationInfo FromFoodLocation(FoodLocation location) => new SimpleLocationInfo(
+        location.Id,
         location.Name ?? "-",
         location.Address ?? "-",
         location.HasDelivery,
