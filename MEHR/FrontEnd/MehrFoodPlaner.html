@@ -6,19 +6,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mehr Food Planer</title>
 </head>
-<body>
-    <div id = "uselessEasterEgg"></div>
+<body onload="getLoc();">
 
-<style>
-    body {background-color: cornflowerblue; font-family: Verdana, Geneva, Tahoma, sans-serif; padding: 10px;}
-    h1   {color: darkblue;}
-    p    {color: red;}
-    div {background-color: wheat; padding: 10px; border-radius: 10px;}
+    <div style="width: 90%; overflow: hidden;">
+        <div style="width: 600px; float: left;">
+            <h2>Planen sie ihre Wochen mit uns ihre Lebensgefährten im Krieg und in der Liebe!</h2>
+            <h3>Nutzen sie die Daten aller Restaurants/Inbisse in der Weltmetropole Mosbach!</h3>
+            <p>Maximale entfernung in km</p>
+            <input id="MaxD">
+            <p>Maximaler Preis in Euros</p>
+            <input id="MaxP">
+            <p>Wie abwechslungsreich darfs sein, werter HERR? :)</p>
+            <input type="range" min="1" max="100" value="50" class="slider" id="diversity">
+            <p>haben sie ebenfalls ein geringes selbstwert gefühl? Wählen sie nun wie viel bedeutung sie der Meinung anderer geben wollen :D</p>
+            <input type="range" min="1" max="100" value="50" class="slider" id="externalInfluence"> <br /> <br />
+            <button onclick=" fillTable();">Search</button>
+        </div>
+        <div style="margin-left: 620px; width: 700px;">
+            <table>
+                <thead>
+                    <tr><th>Wochentag</th><th>Name</th> <th>Adresse</th><th>Liefert</th><th>Tags</th><th>Berwertung</th></tr>
+                </thead>
+                <tbody id="MosbachSearchUL">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    #uselessEasterEgg{background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
-        background-repeat: repeat-x;
-    width: 100%; height: 256px; position : fixed; bottom: 0px; background-color: transparent; left: 0px; margin-bottom: -20px;}
-    
+    <div id="uselessEasterEgg"></div>
+    <style>
+        body {
+            background-color: cornflowerblue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 10px;
+        }
+
+        h1 {
+            color: darkblue;
+        }
+
+        p {
+            color: red;
+        }
+
+        div {
+            background-color: wheat;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #uselessEasterEgg {
+            background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
+            background-repeat: repeat-x;
+            width: 100%;
+            height: 256px;
+            position: fixed;
+            bottom: 0px;
+            background-color: transparent;
+            left: 0px;
+            margin-bottom: -20px;
+            pointer-events: none;
+        }
     </style>
+    <script>
+        var pos;
+
+        function getLoc() {
+            const successCallback = (position) => {
+                console.log(position);
+                pos = position;
+            };
+
+            const errorCallback = (error) => {
+                console.log(error);
+                alert("du Schund du Schelm, du Horst du Hans wir brauchen deine Location um dir zu sagen wo der nächste Saftlagen ist.")
+                window.location.href = "MehrMenu.html"
+            };
+
+            var tst = readCookie("userID");
+            if (tst == null) {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("POST", "http://localhost:5249/UserControllerApi" , false);
+                xmlHttp.send(null);
+                var ergebnis = xmlHttp.response;
+                createCookie("userID",ergebnis,365);
+                console.log("User erstellt")
+            }
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        }
+
+        function fillTable() {
+            var wochTags = [ "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"];
+    // Create the list element:
+    var table = document.getElementById("MosbachSearchUL");
+
+    // TO-DO make HTTP Call to get array
+            var xmlHttp = new XMLHttpRequest();
+            var userID = readCookie("userID");
+            xmlHttp.open("GET", "http://localhost:5249/FoodPlannerApi" + "?MaxDistanceInKM=" + document.getElementById("MaxD").value + "&MaxPriceInEuro=" + document.getElementById("MaxP").value + "&Diversity=" +( document.getElementById("diversity").value/100) + "&ExternalInfluence=" + (document.getElementById("externalInfluence").value/100) +"&userID="+ userID + "&locLat=" + pos.coords.latitude + "&locLong=" + pos.coords.longitude, false);
+    xmlHttp.send(null);
+    var array = JSON.parse(xmlHttp.response);
+    table.innerHTML = "";
+    for (var i = 0; i < array.length; i++) {
+    // Create the list item:
+        var row = document.createElement('tr');
+
+
+        var day = document.createElement('td');
+        day.innerHTML = wochTags[i];
+        row.appendChild(day);
+
+    var namer = document.createElement('td');
+    namer.innerHTML = array[i].name;
+    row.appendChild(namer);
+
+    var addr = document.createElement('td');
+    addr.innerHTML = array[i].address;
+    row.appendChild(addr);
+
+    var deliv = document.createElement('td');
+    deliv.innerHTML = array[i].hasDelivery;
+    row.appendChild(deliv);
+
+    var tach3 = document.createElement('td');
+    tach3.innerHTML = array[i].tags;
+    row.appendChild(tach3);
+
+    var rat = document.createElement('td');
+    rat.innerHTML = array[i].avrRating+"/10";
+    row.appendChild(rat);
+
+    // Add it to the list:
+    table.appendChild(row);
+            }
+
+        }
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            createCookie(name, "", -1);
+        }
+
+    </script>
+    <noscript>Sorry, your browser does not support JavaScript!</noscript>
 </body>
 </html>

@@ -13,36 +13,28 @@
     <div style="width: 600px; float: left;"> <h2>Suchen sie nach etwas Speziellen ? Verwenden sie die MEHR such funktion um es zu finden!</h2>
         <h3>Nutzen sie die Daten aller Restaurants/Inbisse in der Weltmetropole Mosbach!</h3>
         <p>Maximale entfernung in km</p>
-        <input>
+        <input id="MaxD">
         <p>Maximaler Preis in Euros</p>
-        <input>
+        <input id="MaxP">
         <p>Liefer Moeglichkeiten?</p>
         <input type="checkbox" id="delivery" name="delivery" value="deliver">
-        
         <p>Ist es akut ? Aka. : Soll der allen offen haben oder ist es die Search fuer irgendwann anders</p>
         <input type="checkbox" id="isOpen" name="isOpen" value="open">
         <p>tragen sie einen Tag nach den sie Suchen(fuer alle Eintraege einfach leer lassen)</p>
-        <input>
-        <button onclick=" fillUL();">Search</button>
-        <ul id = "MosbachSearchUL"></ul>
+        <input id="tag">
+        <button onclick=" fillTable();">Search</button>
+       
          </div>
-    <div style="margin-left: 620px; width: 700px;">
-        <h2>Keine Euros dabei um sich ne Leckere Mahlzeit zu besorgen ? Kein Problem wir zeigen ihnen den Aktuellen Geldwechselkurs</h2>
-        Euro nach
-        <h3>Geben sie die Menge ihrer Waehrung an</h3>
-            <input id="currencyAmount">
-            <h3>Waehlen sie ihre Waehrung aus</h3>
-            <select name="SourceCurrency" id="SourceCurrency">
-                <option value="USD">US-Dollar</option>
-                <option value="GBP">Pfund Sterling</option>
-                <option value="CHF">Schweizer Franken</option>
-                <option value="JPY">Yen</option>
-                <option value="IRR">Iranische Rial</option>
-            </select>
-          <button onclick=" calcCurrent();"> Berechne </button>
-          <h3>Ergebnis :</h3>
-        <p id = "currency_Result"> test</p> </div>
-</div>
+        <div style="margin-left: 620px; width: 700px;">
+        <table>
+            <thead>
+                <tr><th>Name</th> <th>Adresse</th><th>Liefert</th><th>Tags</th><th>Berwertung</th></tr>
+            </thead>
+            <tbody id="MosbachSearchUL">
+            </tbody>
+        </table>
+        </div>
+    </div>
 
 <div id = "uselessEasterEgg"></div>
 
@@ -58,10 +50,6 @@
     
     </style>
 <script>
-    var options = [
-        set0 = ['Option 1', 'Option 2'],
-        set1 = ['First Option', 'Second Option', 'Third Option']
-    ];
     var pos;
 
     function getLoc() {
@@ -79,37 +67,43 @@
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     }
 
-    function calcCurrent() {
-        var sourceC = document.getElementById("SourceCurrency").value;
-        var amountC = document.getElementById("currencyAmount").value;
-
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://localhost:5249/ChangeToEuro"+"?value="+amountC+"&currency="+sourceC, true);
-        xmlHttp.send(null);
-        document.getElementById("currency_Result").value = xmlHttp.responseText;
-    }
-
-    function fillUL() {
+    function fillTable() {
     // Create the list element:
-        var list = document.getElementById("MosbachSearchUL");
-
+        var table = document.getElementById("MosbachSearchUL");
 
     // TO-DO make HTTP Call to get array
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://localhost:5249/FoodFinderApi" + "?MaxDistanceInKM=" + amountC + "&MaxPriceInEuro=" + sourceC + "&AssociatedTags=" + sourceC + "&CurrentlyOpen=" + sourceC + "&IsDeleviring=" + sourceC + "&locLat=" + sourceC + "&locLong=" + sourceC, true);
+        xmlHttp.open("GET", "http://localhost:5249/FoodFinderApi" + "?MaxDistanceInKM=" + document.getElementById("MaxD").value + "&MaxPriceInEuro=" + document.getElementById("MaxP").value + "&AssociatedTags=" + document.getElementById("tag").value + "&CurrentlyOpen=" + document.getElementById("isOpen").checked + "&IsDeleviring=" + document.getElementById("delivery").checked + "&locLat=" + pos.coords.latitude + "&locLong=" + pos.coords.longitude, false);
         xmlHttp.send(null);
-        document.getElementById("currency_Result").value = xmlHttp.responseText;
-
-
+        console.log(xmlHttp.response);
+        var array = JSON.parse(xmlHttp.response);
+        table.innerHTML = "";
     for (var i = 0; i < array.length; i++) {
         // Create the list item:
-        var item = document.createElement('li');
+        var row = document.createElement('tr');
 
-        // Set its contents:
-        item.appendChild(document.createTextNode(array[i]));
+        var namer = document.createElement('td');
+        namer.innerHTML = array[i].name;
+        row.appendChild(namer);
+
+        var addr = document.createElement('td');
+        addr.innerHTML = array[i].address;
+        row.appendChild(addr);
+
+        var deliv = document.createElement('td');
+        deliv.innerHTML = array[i].hasDelivery;
+        row.appendChild(deliv);
+
+        var tach3 = document.createElement('td');
+        tach3.innerHTML = array[i].tags;
+        row.appendChild(tach3);
+
+        var rat = document.createElement('td');
+        rat.innerHTML = array[i].avrRating+"/10";
+        row.appendChild(rat);
 
         // Add it to the list:
-        list.appendChild(item);
+        table.appendChild(row);
     }
 
     // Finally, return the constructed list:
