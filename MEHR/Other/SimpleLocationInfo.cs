@@ -16,5 +16,5 @@ public record struct SimpleLocationInfo
         location.Address ?? "-",
         location.HasDelivery,
         string.Join(", ", location.Foods!.Where(x => x?.Tag?.Name is not null).Select(x => x.Tag!.Name!).Distinct()),
-        (float)Math.Round(location.Ratings?.Select(x => x.Rating).ToArray().Average() ?? 5d));
+        (float)Math.Round(location.Ratings?.Select(x => x.Rating).ToArray().Average() ?? 5d, 2));
 }
