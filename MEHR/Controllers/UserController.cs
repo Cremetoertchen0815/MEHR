@@ -6,6 +6,7 @@ namespace MEHR.Controllers
 {
     [Controller]
     [Route("/UserControllerApi")]
+    [AllowCrossSiteOrigins]
     public class UserController : Controller
     {
         private DataContext _context;

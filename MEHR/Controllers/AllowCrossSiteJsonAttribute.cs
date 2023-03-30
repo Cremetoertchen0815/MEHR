@@ -2,7 +2,7 @@
 
 namespace MEHR.Controllers;
 
-public class AllowCrossSiteJsonAttribute : ActionFilterAttribute
+public class AllowCrossSiteOriginsAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {

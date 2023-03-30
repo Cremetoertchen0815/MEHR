@@ -8,6 +8,7 @@ namespace MEHR.Controllers
 {
     [Controller]
     [Route("/FoodRatingApi")]
+    [AllowCrossSiteOrigins]
     public class FoodRatingController : Controller
     {
 

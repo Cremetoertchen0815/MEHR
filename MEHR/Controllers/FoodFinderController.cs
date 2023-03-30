@@ -6,6 +6,7 @@ namespace MEHR.Controllers
 {
     [Controller]
     [Route("/FoodFinderApi")]
+    [AllowCrossSiteOrigins]
     public class FoodFinderController : Controller
     {
         private DataContext _context;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MEHR.Controllers;
 [Controller]
 [Route("/TestApi")]
+[AllowCrossSiteOrigins]
 public class TestController : Controller
 {
     private DataContext _context;
