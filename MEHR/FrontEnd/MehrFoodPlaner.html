@@ -13,9 +13,9 @@
             <h2>Planen sie ihre Wochen mit uns ihre Lebensgefährten im Krieg und in der Liebe!</h2>
             <h3>Nutzen sie die Daten aller Restaurants/Inbisse in der Weltmetropole Mosbach!</h3>
             <p>Maximale entfernung in km</p>
-            <input id="MaxD">
+            <input id="MaxD" value="0">
             <p>Maximaler Preis in Euros</p>
-            <input id="MaxP">
+            <input id="MaxP" value="0">
             <p>Wie abwechslungsreich darfs sein, werter HERR? :)</p>
             <input type="range" min="1" max="100" value="50" class="slider" id="diversity">
             <p>haben sie ebenfalls ein geringes selbstwert gefühl? Wählen sie nun wie viel bedeutung sie der Meinung anderer geben wollen :D</p>
@@ -89,8 +89,9 @@
                 xmlHttp.open("POST", "http://localhost:5249/UserControllerApi" , false);
                 xmlHttp.send(null);
                 var ergebnis = xmlHttp.response;
-                createCookie("userID",ergebnis,365);
-                console.log("User erstellt")
+                createCookie("userID", ergebnis, 365);
+                console.log(document.cookie);
+                console.log("User erstellt");
             }
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         }
@@ -148,7 +149,7 @@
                 var expires = "; expires=" + date.toGMTString();
             }
             else var expires = "";
-            document.cookie = name + "=" + value + expires + "; path=/";
+            document.cookie = name + "=" + value + expires + "; path=/; samesite=lax";
         }
 
         function readCookie(name) {
