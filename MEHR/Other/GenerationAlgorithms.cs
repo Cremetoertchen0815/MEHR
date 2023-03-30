@@ -55,7 +55,8 @@ public static class GenerationAlgorithms
         var history = context.HistoryItems.Where(x => x.Owner.Id == user.Id).OrderByDescending(x => x.CreationDate)
                                             .Select(x => x.Location.Id).Take(FOOD_PLANNER_HISTORY_SAMPLES).ToList()!;
         // Fetch all foods and filter by query
-        var locations = context.FoodLocations.Include(x => x.Ratings!).ThenInclude(x => x.Author).AsEnumerable().Where(x =>
+        var locations = context.FoodLocations.Include(x => x.Ratings!).ThenInclude(x => x.Author)
+                                             .Include(x => x.Foods!).ThenInclude(x => x.Tag).AsEnumerable().Where(x =>
             {
                 var distance = HelperAPIs.GetLocationBetweenCoords(locLat, locLong, x.LocationLatitude, x.LocationLongitude);
                 //Query parameters all have an ignore state, which if set, the parameter can be ignored and is always true
