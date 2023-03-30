@@ -90,7 +90,7 @@
                 xmlHttp.send(null);
                 var ergebnis = xmlHttp.response;
                 createCookie("userID",ergebnis,365);
-
+                console.log("User erstellt")
             }
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
         }
@@ -103,7 +103,7 @@
     // TO-DO make HTTP Call to get array
             var xmlHttp = new XMLHttpRequest();
             var userID = readCookie("userID");
-            xmlHttp.open("GET", "http://localhost:5249/FoodPlannerApi" + "?MaxDistanceInKM=" + document.getElementById("MaxD").value + "&MaxPriceInEuro=" + document.getElementById("MaxP").value + "&Diversity=" + document.getElementById("diversity").value + "&ExternalInfluence=" + document.getElementById("externalInfluence").checked +"&userID="+ userID + "&locLat=" + pos.coords.latitude + "&locLong=" + pos.coords.longitude, false);
+            xmlHttp.open("GET", "http://localhost:5249/FoodPlannerApi" + "?MaxDistanceInKM=" + document.getElementById("MaxD").value + "&MaxPriceInEuro=" + document.getElementById("MaxP").value + "&Diversity=" +( document.getElementById("diversity").value/100) + "&ExternalInfluence=" + (document.getElementById("externalInfluence").value/100) +"&userID="+ userID + "&locLat=" + pos.coords.latitude + "&locLong=" + pos.coords.longitude, false);
     xmlHttp.send(null);
     var array = JSON.parse(xmlHttp.response);
     table.innerHTML = "";
