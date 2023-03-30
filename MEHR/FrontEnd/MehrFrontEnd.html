@@ -50,10 +50,6 @@
     
     </style>
 <script>
-    var options = [
-        set0 = ['Option 1', 'Option 2'],
-        set1 = ['First Option', 'Second Option', 'Third Option']
-    ];
     var pos;
 
     function getLoc() {
@@ -69,17 +65,6 @@
         };
 
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    }
-
-    function calcCurrent() {
-        var sourceC = document.getElementById("SourceCurrency").value;
-        var amountC = document.getElementById("currencyAmount").value;
-
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "http://localhost:5249/ChangeToEuro"+"?value="+amountC+"&currency="+sourceC, false);
-        xmlHttp.send(null);
-        console.log(xmlHttp.response);
-        document.getElementById("currencyResult").innerHTML = xmlHttp.response + " Euro";
     }
 
     function fillTable() {
