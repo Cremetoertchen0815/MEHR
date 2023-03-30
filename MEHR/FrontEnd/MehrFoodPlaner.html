@@ -7,18 +7,72 @@
     <title>Mehr Food Planer</title>
 </head>
 <body>
-    <div id = "uselessEasterEgg"></div>
 
-<style>
-    body {background-color: cornflowerblue; font-family: Verdana, Geneva, Tahoma, sans-serif; padding: 10px;}
-    h1   {color: darkblue;}
-    p    {color: red;}
-    div {background-color: wheat; padding: 10px; border-radius: 10px;}
+    <div style="width: 90%; overflow: hidden;">
+        <div style="width: 600px; float: left;">
+            <h2>Planen sie ihre Wochen mit uns ihre Lebensgefährten im Krieg und in der Liebe!</h2>
+            <h3>Nutzen sie die Daten aller Restaurants/Inbisse in der Weltmetropole Mosbach!</h3>
+            <p>Maximale entfernung in km</p>
+            <input id="MaxD">
+            <p>Maximaler Preis in Euros</p>
+            <input id="MaxP">
+            <p>Liefer Moeglichkeiten?</p>
+            <input type="checkbox" id="delivery" name="delivery" value="deliver">
+            <p>Ist es akut ? Aka. : Soll der allen offen haben oder ist es die Search fuer irgendwann anders</p>
+            <input type="checkbox" id="isOpen" name="isOpen" value="open">
+            <p>tragen sie einen Tag nach den sie Suchen(fuer alle Eintraege einfach leer lassen)</p>
+            <input id="tag">
+            <p>Wie abwechslungsreich darfs sein, werter HERR? :)</p>
+            <input type="range" min="1" max="100" value="50" class="slider" id="diversity">
+            <p>haben sie ebenfalls ein geringes selbstwert gefühl? Wählen sie nun wie viel bedeutung sie der Meinung anderer geben wollen :D</p>
+            <input type="range" min="1" max="100" value="50" class="slider" id="externalInfluence"> <br /> <br />
+            <button onclick=" fillTable();">Search</button>
+        </div>
+        <div style="margin-left: 620px; width: 700px;">
+            <table>
+                <thead>
+                    <tr><th>Name</th> <th>Adresse</th><th>Liefert</th><th>Tags</th><th>Berwertung</th></tr>
+                </thead>
+                <tbody id="MosbachSearchUL">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    #uselessEasterEgg{background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
-        background-repeat: repeat-x;
-    width: 100%; height: 256px; position : fixed; bottom: 0px; background-color: transparent; left: 0px; margin-bottom: -20px;}
-    
+    <div id="uselessEasterEgg"></div>
+    <style>
+        body {
+            background-color: cornflowerblue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 10px;
+        }
+
+        h1 {
+            color: darkblue;
+        }
+
+        p {
+            color: red;
+        }
+
+        div {
+            background-color: wheat;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #uselessEasterEgg {
+            background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
+            background-repeat: repeat-x;
+            width: 100%;
+            height: 256px;
+            position: fixed;
+            bottom: 0px;
+            background-color: transparent;
+            left: 0px;
+            margin-bottom: -20px;
+            pointer-events: none;
+        }
     </style>
 </body>
 </html>

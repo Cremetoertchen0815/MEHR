@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>einfach M.E.H.R.</title>
+</head>
+<body>
+<h1>einfach M.E.H.R.</h1>
+
+    <div style="width: 600px; float: left;">
+        <h2>Keine Euros dabei um sich ne Leckere Mahlzeit zu besorgen ? Kein Problem wir zeigen ihnen den Aktuellen Geldwechselkurs</h2>
+        Euro nach
+        <h3>Geben sie die Menge ihrer Waehrung an</h3>
+            <input id="currencyAmount">
+            <h3>Waehlen sie ihre Waehrung aus</h3>
+            <select name="SourceCurrency" id="SourceCurrency">
+                <option value="USD">US-Dollar</option>
+                <option value="GBP">Pfund Sterling</option>
+                <option value="CHF">Schweizer Franken</option>
+                <option value="JPY">Yen</option>
+                <option value="IRR">Iranische Rial</option>
+            </select>
+          <button onclick=" calcCurrent();"> Berechne </button>
+          <h3>Ergebnis :</h3>
+        <p id="currencyResult"> test</p> </div>
+     </div>
+    
+
+<div id = "uselessEasterEgg"></div>
+
+<style>
+    body {background-color: cornflowerblue; font-family: Verdana, Geneva, Tahoma, sans-serif; padding: 10px;}
+    h1   {color: darkblue;}
+    p    {color: red;}
+    div {background-color: wheat; padding: 10px; border-radius: 10px;}
+
+    #uselessEasterEgg{background-image: url("Sonic1_16Bit_Proto_GHZ_Chunk_3B.png");
+        background-repeat: repeat-x;
+    width: 100%; height: 256px; position : fixed; bottom: 0px; background-color: transparent; left: 0px; margin-bottom: -20px; pointer-events: none;}
+    
+    </style>
+<script>
+    function calcCurrent() {
+        var sourceC = document.getElementById("SourceCurrency").value;
+        var amountC = document.getElementById("currencyAmount").value;
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "http://localhost:5249/ChangeToEuro"+"?value="+amountC+"&currency="+sourceC, false);
+        xmlHttp.send(null);
+        console.log(xmlHttp.response);
+        document.getElementById("currencyResult").innerHTML = xmlHttp.response + " Euro";
+    }
+    </script>
+    <noscript>Sorry, your browser does not support JavaScript!</noscript> 
+</body>
+</html>
