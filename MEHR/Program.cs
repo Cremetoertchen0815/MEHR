@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddCors(x => x.AddDefaultPolicy( policy => policy.AllowAnyHeader()));
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
