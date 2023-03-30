@@ -22,7 +22,7 @@ namespace MEHR.Controllers
             var request = new RestRequest();
             request.AddParameter("apikey", "vfhrYYrcsUrh9kFEWuYXmDUmMzo0H5mvwaAvVeDz");
             var response = client.Get<CurrencyResult>(request)!;
-            return (value / (decimal)response.data[currency]) * (decimal)response.data["EUR"];
+            return Math.Round(value / (decimal)response.data[currency] * (decimal)response.data["EUR"], 2);
 
         }
 
@@ -34,7 +34,7 @@ namespace MEHR.Controllers
             var request = new RestRequest();
             request.AddParameter("apikey", "vfhrYYrcsUrh9kFEWuYXmDUmMzo0H5mvwaAvVeDz");
             var response = client.Get<CurrencyResult>(request)!;
-            return (value / (decimal)response.data[sourceCurrency]) * (decimal)response.data[targetCurrency];
+            return Math.Round(value / (decimal)response.data[sourceCurrency] * (decimal)response.data[targetCurrency], 2);
         }
     }
 }
