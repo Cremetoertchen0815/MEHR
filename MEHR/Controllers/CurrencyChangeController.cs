@@ -5,6 +5,7 @@ namespace MEHR.Controllers
 {
     [Controller]
     [Route("/CurrencyApi")]
+    [AllowCrossSiteJson]
     public class CurrencyChangeController : Controller
     {
         public class CurrencyResult
