@@ -16,9 +16,9 @@ namespace MEHR.Controllers
         public FoodRatingController(DataContext context) => _context = context;
 
         [HttpPost]
-        public void SetRating(int locationId, int userId, int rating, string ratingText) {
+        public void SetRating(int locationId, ulong userId, int rating, string ratingText) {
             FoodLocation location = _context.FoodLocations.First(x => x.Id == locationId);
-            AppUser user = _context.Users.First(x => x.Id == userId);
+            AppUser user = _context.Users.First(x => x.CookieHash == userId);
 
             LocationRating ratingObj = new LocationRating();
             ratingObj.Location = location;

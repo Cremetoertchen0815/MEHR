@@ -91,7 +91,6 @@
                 xmlHttp.send(null);
                 var ergebnis = xmlHttp.response;
                 createCookie("userID", ergebnis, 365);
-                console.log(document.cookie);
                 console.log("User erstellt");
             }
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -119,7 +118,7 @@
                 row.appendChild(day);
 
                 var namer = document.createElement('td');
-                namer.innerHTML = array[i].name;
+                namer.innerHTML = "<a href=\"MehrDetails.html?id="+array[i].id+"\">" + array[i].name +"</a>";
                 row.appendChild(namer);
 
                 var addr = document.createElement('td');

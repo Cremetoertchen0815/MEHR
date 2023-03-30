@@ -15,11 +15,29 @@
         <p id="address"><b>Adresse: </b></p>
         <p id="openingTimesHTML"><b>Opening Times: </b> <br /> </p>
         <p><b>Liefert: </b><input type="checkbox" id="hasDelivery" disabled="disabled" /></p>
-        <b>Essen: </b> <br />
-        <ul id="food"></ul>
-        <b>Bewertungen: </b> <br />
-        <ul id="rating"></ul>
-        <input id="addRating" />
+
+        <b style="color : red;">Essen: </b> <br />
+        <ul id="food" style="color : red;"></ul>
+        <b style="color : red;">Bewertungen: </b> <br />
+        <ul id="rating" style="color : red;"></ul>
+        <p><h3>Fügen sie ihre eigene personlifisierte <b>Bewertung</b> hinzu. ROFL XD YOLO LOL</h3></p>
+        <input id="addComment" value="Kommentar"/>
+        <select name="SourceCurrency" id="select">
+            <option value="1">1/10</option>
+            <option value="2">2/10</option>
+            <option value="3">3/10</option>
+            <option value="4">4/10</option>
+            <option value="5">5/10</option>
+            <option value="6">6/10</option>
+            <option value="7">7/10</option>
+            <option value="8">8/10</option>
+            <option value="9">9/10</option>
+            <option value="10">10/10</option>
+            <option value="0">0/10</option>
+        </select>
+        <input type="button" id="addRating" value="Submit" onclick="addRating();"/>
+
+
     </div>
 
     <div id="uselessEasterEgg"></div>
@@ -59,10 +77,22 @@
         }
     </style>
     <script>
+        var locationID;
         function load() {
+            var tst = readCookie("userID");
+            if (tst == null) {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("POST", "http://localhost:5249/UserControllerApi", false);
+                xmlHttp.send(null);
+                var ergebnis = xmlHttp.response;
+                createCookie("userID", ergebnis, 365);
+                console.log("User erstellt");
+            }
+
             var URLparams = new URLSearchParams(window.location.search);
+            locationID = URLparams.get("id");
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", "http://localhost:5249/InfoContollerApi" + "?id=" + URLparams.get("id"),false);
+            xmlHttp.open("GET", "http://localhost:5249/InfoContollerApi" + "?id=" + locationID,false);
             xmlHttp.send(null);
             console.log(xmlHttp.response);
             var json = JSON.parse(xmlHttp.response);
@@ -85,6 +115,43 @@
                 RatingListe.appendChild(listElement);
             }
         }
+        function addRating() {
+            var userID = readCookie("userID");
+            console.log(userID);
+            var comment = document.getElementById("addComment").value;
+            var rating = document.getElementById("select").value;
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", "http://localhost:5249/FoodRatingApi?locationId=" + locationID + "&userId=" + userID + "&rating=" + rating + "&ratingText=" + comment  , false);
+            xmlHttp.send(null);
+            location.reload();
+        }
+
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/; samesite=lax";
+        }
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            createCookie(name, "", -1);
+        }
+
+
     </script>
 </body>
 </html>

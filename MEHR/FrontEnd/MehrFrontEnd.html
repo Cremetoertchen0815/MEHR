@@ -125,7 +125,7 @@
                 var row = document.createElement('tr');
 
                 var namer = document.createElement('td');
-                namer.innerHTML = array[i].name;
+                namer.innerHTML = "<a href=\"MehrDetails.html?id=" + array[i].id + "\">" + array[i].name + "</a>";
                 row.appendChild(namer);
 
                 var addr = document.createElement('td');
