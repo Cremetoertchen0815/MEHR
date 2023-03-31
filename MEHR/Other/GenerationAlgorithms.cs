@@ -52,8 +52,8 @@ public static class GenerationAlgorithms
     {
         //Fetch user data + history from db
         if (context.Users.FirstOrDefault(x => x.CookieHash == userID) is not AppUser user) return null;
-        var history = context.HistoryItems.Where(x => x.Owner.Id == user.Id).OrderByDescending(x => x.CreationDate)
-                                            .Select(x => x.Location.Id).Take(FOOD_PLANNER_HISTORY_SAMPLES).ToList()!;
+        var history = context.HistoryItems.Where(x => x.Owner!.Id == user.Id).OrderByDescending(x => x.CreationDate)
+                                            .Select(x => x.Location!.Id).Take(FOOD_PLANNER_HISTORY_SAMPLES).ToList()!;
         // Fetch all foods and filter by query
         var locations = context.FoodLocations.Include(x => x.Ratings!).ThenInclude(x => x.Author)
                                              .Include(x => x.Foods!).ThenInclude(x => x.Tag).AsEnumerable().Where(x =>
@@ -67,7 +67,7 @@ public static class GenerationAlgorithms
             }).ToArray();
 
         //Clear history to prevent build up
-        context.RemoveRange(context.HistoryItems.Include(x => x.Owner).Where(x => x.Owner.Id == user.Id));
+        context.RemoveRange(context.HistoryItems.Include(x => x.Owner).Where(x => x.Owner!.Id == user.Id));
 
         return Enumerable.Range(0, FOOD_PLANNER_ELEMENTS).Select(_ =>
         {

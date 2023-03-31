@@ -36,10 +36,10 @@
             <ul>
                 @{
                     int counter = 1;
-					foreach (var rating in Model.Ratings)
+					foreach (var rating in Model.Ratings!)
 					{
                         <li>
-                            <h3>@(counter++). @rating.Location.Name (@rating.Rating)</h3>
+                            <h3>@(counter++). @rating.Location!.Name (@rating.Rating)</h3>
 						    <p>@rating.Text</p>
 						</li>
 					}
@@ -52,7 +52,7 @@
         <dd class = "col-sm-10">
             <ul>
                     @{
-                        foreach (var loc in Model.History)
+                        foreach (var loc in Model.History!)
                         {
                              <li>@loc.Location?.Name (@DateTime.FromBinary(loc.CreationDate).ToString())</li>
                         }

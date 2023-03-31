@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MEHR.Controllers.admin
 {
-    [ApiExplorerSettings(IgnoreApi = false)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("admin/AppUsers")]
     public class AppUsersController : Controller
     {
