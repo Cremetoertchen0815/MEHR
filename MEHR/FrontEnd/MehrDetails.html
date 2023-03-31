@@ -105,7 +105,7 @@
             var FoodListe = document.getElementById("food");
             for (var i = 0; i < json.foods.length; i++) {
                 var listElement = document.createElement("li");
-                listElement.innerHTML = json.foods[i].name + "(#" + json.foods[i].tag + " " + json.foods[i].lowerPriceRange + "€ ~ " + json.foods[i].upperPriceRange + "€)";
+                listElement.innerHTML = json.foods[i].name + "(#" + json.foods[i].tag + " " + json.foods[i].lowerPriceRange + "€ - " + json.foods[i].upperPriceRange + "€)";
                 FoodListe.appendChild(listElement);
             }
             var RatingListe = document.getElementById("rating");
